@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AREA Galabau – Garten- & Landschaftsbau Ravensburg & Bodensee</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#4f5057">
+<meta name="description" content="Meisterbetrieb für Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee. Pflaster, Terrassen, Zäune, Rollrasen. Kostenlose Besichtigung, Festpreis-Garantie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1EEE6; --paper-2:#FAF8F3; --ink:#1F211C; --ink-2:#55584F; --line:#D9D4C7;
+  --forest:#4f5057; --moss:#a6ca4f; --clay:#a6ca4f; --sun:#a6ca4f; --green:#a6ca4f; --green-d:#93b83c; --dark:#4f5057; --on-green:#4f5057;
+  --r:22px; --ease:cubic-bezier(.2,.7,.1,1);
+  --sans:"Inter Tight",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--dark);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06);transition:transform .45s var(--ease)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.hdr.solid{box-shadow:0 8px 30px rgba(0,0,0,.18)}
+.hdr.hide{transform:translateY(-100%)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.01em;font-size:18px}
+.logo .brand{height:36px;width:auto;display:block}
+.nav{display:flex;gap:6px;align-items:center;font-size:15px}
+.nav .btn{margin-left:12px}
+.nav a{text-decoration:none;color:rgba(255,255,255,.78);transition:color .2s,background .2s}
+.nav a:not(.btn){padding:8px 12px;border-radius:999px}
+.nav a:not(.btn):hover{background:var(--green);color:var(--on-green)}
+.nav a.btn,.nav a.btn:hover{color:var(--on-green)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;background:var(--green);color:var(--on-green);text-decoration:none;font-weight:600;font-size:15px;transition:transform .25s var(--ease),background .25s}
+.btn:hover{transform:translateY(-2px);background:var(--green-d)}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.btn.ghost{background:rgba(255,255,255,.7);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);backdrop-filter:blur(6px)}
+.btn.ghost:hover{background:#fff}
+.burger{display:none;width:44px;height:44px;border-radius:50%;align-items:center;justify-content:center}
+.burger span{display:block;width:20px;height:1.6px;background:#fff;position:relative;transition:.3s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:1.6px;background:#fff;transition:.3s}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.menu-open .burger span{background:transparent}
+.menu-open .burger span::before{top:0;transform:rotate(45deg)}
+.menu-open .burger span::after{top:0;transform:rotate(-45deg)}
+.mmenu{position:fixed;inset:0;z-index:45;background:var(--dark);color:#fff;padding:100px 24px 40px;display:flex;flex-direction:column;gap:6px;clip-path:circle(0 at calc(100% - 42px) 34px);transition:clip-path .6s var(--ease)}
+.menu-open .mmenu{clip-path:circle(150% at calc(100% - 42px) 34px)}
+.mmenu a{font-size:34px;letter-spacing:-.02em;text-decoration:none;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.mmenu a span{font-size:13px;color:var(--green);margin-right:14px;vertical-align:middle}
+.mmenu .btn{margin-top:24px;align-self:flex-start;font-size:16px;border:0;padding:14px 22px}
+
+/* ---------- hero (sketch -> garden) ---------- */
+.hero-track{position:relative;height:300svh}
+.hero{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--paper);transform-origin:50% 0}
+
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(241,238,230,.94) 0%,rgba(241,238,230,.7) 24%,rgba(241,238,230,0) 48%),linear-gradient(0deg,rgba(15,20,15,.35) 0%,rgba(15,20,15,0) 30%);pointer-events:none}
+.hero-shade{position:absolute;inset:0;background:#0d120e;opacity:0;pointer-events:none;z-index:3}
+.hero-copy{position:absolute;z-index:2;inset:0;padding:108px 0 0;pointer-events:none}
+.hero-copy .wrap{pointer-events:auto}
+.eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor}
+.hero h1{font-weight:300;font-size:clamp(46px,8.6vw,118px);line-height:.96;letter-spacing:-.045em;margin-top:18px}
+.hero h1 .l{display:block}
+.hero h1 .l2{transition:opacity .6s,transform .8s var(--ease),filter .6s}
+.hero h1 em,h2 em,.foot-big em{background:var(--green);color:var(--on-green);padding:0 .16em .04em .1em;border-radius:.12em;-webkit-box-decoration-break:clone;box-decoration-break:clone;line-height:1.12}
+.num b{color:var(--ink)}.num b::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-left:10px;vertical-align:middle}
+.hero:not(.built) h1 .l2{opacity:.12;filter:blur(2px);transform:translateY(10px)}
+.hero-ctas{position:absolute;z-index:2;left:0;right:0;bottom:calc(34px + env(safe-area-inset-bottom));display:flex;gap:10px;flex-wrap:wrap;transition:opacity .6s,transform .7s var(--ease)}
+.hero:not(.built) .hero-ctas{opacity:0;transform:translateY(16px);pointer-events:none}
+.hint{white-space:nowrap;position:absolute;z-index:2;left:50%;bottom:42px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:12px 18px 12px 14px;border-radius:999px;background:rgba(250,248,243,.9);box-shadow:0 8px 30px rgba(0,0,0,.08),inset 0 0 0 1px var(--line);font-size:14px;line-height:1.25;transition:opacity .4s}
+.hint small{display:block;color:var(--ink-2);font-size:12px}
+.hint svg{width:26px;height:26px;animation:swipe 1.8s var(--ease) infinite}
+@keyframes swipe{0%{transform:translateY(6px);opacity:0}25%{opacity:1}70%{transform:translateY(-8px);opacity:1}100%{transform:translateY(-8px);opacity:0}}
+.meta-strip{position:absolute;z-index:2;right:20px;bottom:40px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35);transition:opacity .6s}
+.hero:not(.built) .meta-strip{opacity:0}
+
+/* scene drawing */
+.scene{position:absolute;inset:0;overflow:hidden;background:var(--paper)}
+.scene img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.scene .real{opacity:0;filter:saturate(.35) contrast(.92);transform:scale(1.03);will-change:opacity}
+.scene.anim .real{transition:opacity 2.2s cubic-bezier(.45,0,.2,1),filter 2.6s cubic-bezier(.45,0,.2,1),transform 2.6s cubic-bezier(.2,.7,.1,1)}
+.scene.on .real{opacity:1;filter:none;transform:none}
+
+/* ---------- stacked sections ---------- */
+.stack{position:relative;z-index:5;margin-top:-100svh;background:var(--paper-2);border-radius:28px 28px 0 0;box-shadow:0 -24px 60px rgba(20,25,20,.18)}
+section{padding:110px 0}
+.sec-head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;margin-bottom:48px}
+.num{font-size:13px;color:var(--ink-2);letter-spacing:.1em;display:flex;gap:12px;align-items:center}
+.num b{font-weight:500;color:var(--ink)}
+h2{font-weight:300;font-size:clamp(38px,5.6vw,72px);line-height:1;letter-spacing:-.04em;margin-top:14px}
+.lead{color:var(--ink-2);max-width:46ch;font-size:18px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* projects */
+.ba{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:var(--paper);user-select:none;touch-action:pan-y}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
+.ba .top{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.ba .handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:#fff;transform:translateX(-1px);box-shadow:0 0 12px rgba(0,0,0,.25);pointer-events:none}
+.ba .handle::after{content:"⟷";position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;color:var(--forest);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.ba{cursor:ew-resize}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;pointer-events:none}
+.ba:focus-within{outline:3px solid var(--green);outline-offset:3px}
+.ba .tag{position:absolute;top:16px;padding:6px 12px;border-radius:999px;font-size:13px;background:rgba(250,248,243,.9);pointer-events:none}
+.ba .tag.a{left:16px;background:var(--dark);color:#fff}.ba .tag.b{right:16px;background:var(--green);color:var(--on-green);font-weight:600}
+.ba-cap{display:flex;justify-content:space-between;gap:16px;margin:16px 4px 0;font-size:14px;color:var(--ink-2)}
+
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:64px 0 24px;padding-bottom:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{white-space:nowrap;padding:10px 16px;border-radius:999px;font-size:14px;box-shadow:inset 0 0 0 1px var(--line);transition:.25s}
+.tab:hover{box-shadow:inset 0 0 0 1px var(--ink-2)}
+.tab.act{background:var(--green);color:var(--on-green);box-shadow:none;font-weight:600}
+.tab sup{font-size:10px;opacity:.6;margin-left:3px}
+.rail{display:flex;gap:16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  width:100vw;margin-inline:calc(50% - 50vw);padding:4px max(20px,(100vw - 1180px)/2) 6px;scroll-padding-inline:max(20px,(100vw - 1180px)/2);cursor:grab;user-select:none}
+.rail::-webkit-scrollbar{display:none}
+.rail.dragging{scroll-snap-type:none;cursor:grabbing}.rail.dragging .card{pointer-events:none}
+.rail .card{flex:0 0 calc((min(1180px,100vw - 40px) - 32px)/3);scroll-snap-align:start}
+.rail-ctl{display:flex;align-items:center;gap:20px;margin-top:22px}
+.rail-prog{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.rail-prog i{display:block;height:100%;width:30%;background:var(--dark);border-radius:3px;transition:transform .15s linear;transform-origin:left}
+.arrows{display:flex;gap:8px}
+.arrows button{width:48px;height:48px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line);font-size:18px;transition:.2s}
+.arrows button:hover{background:var(--green);color:var(--on-green);box-shadow:none}
+.arrows button:disabled{opacity:.3;pointer-events:none}
+.card{position:relative;border-radius:18px;overflow:hidden;background:var(--paper);text-align:left;transition:transform .5s var(--ease),opacity .4s}
+.card .ph{aspect-ratio:4/3;position:relative}
+.card .ph .scene{transition:transform 1s var(--ease)}
+.card:hover .ph .scene{transform:scale(1.04)}
+.card .cap{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 16px;gap:12px}
+.card .cap b{font-weight:500;font-size:16px}
+.card .cap small{display:block;color:var(--ink-2);font-size:13px}
+.card .cap i{font-style:normal;width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line);transition:.3s}
+.card:hover .cap i{background:var(--green);color:var(--on-green);box-shadow:none;transform:rotate(-45deg)}
+.card.gone{display:none}
+.card img{-webkit-user-drag:none}
+.note{margin-top:18px;font-size:13px;color:var(--ink-2)}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sv{position:relative;padding:28px;border-radius:var(--r);background:var(--paper);overflow:hidden;min-height:280px;display:flex;flex-direction:column;transition:transform .5s var(--ease),background .4s,color .4s}
+.sv:hover{transform:translateY(-4px)}
+.sv.feat{grid-column:span 2;background:var(--dark);color:#F3F0E6}
+.sv.feat .ico{color:var(--green)}
+.sv:hover .go{background:var(--green);color:var(--on-green);box-shadow:none}
+.sv.feat p,.sv.feat .chips span{color:rgba(243,240,230,.75)}
+.sv.feat .chips span{box-shadow:inset 0 0 0 1px rgba(243,240,230,.25)}
+.sv .ico{width:52px;height:52px}
+.sv .ico path,.sv .ico line,.sv .ico rect,.sv .ico circle{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.sv h3{font-weight:400;font-size:28px;letter-spacing:-.03em;margin:auto 0 8px;padding-top:28px}
+.sv p{color:var(--ink-2);font-size:15.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.chips span{font-size:12.5px;padding:5px 10px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2)}
+.sv .go{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px currentColor;opacity:.35;transition:.3s;text-decoration:none}
+.sv:hover .go{opacity:1;transform:rotate(-45deg)}
+
+/* process */
+.dark{background:var(--forest);color:#EEEBE1;border-radius:28px;margin:0 10px}
+.dark .num,.dark .lead{color:rgba(238,235,225,.65)}.dark .num b{color:#fff}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;position:relative}
+.step{padding:28px 22px 6px 0;border-top:1px solid rgba(238,235,225,.2);position:relative}
+.step::before{counter-increment:s;content:"0" counter(s);font-size:13px;opacity:.55}
+.step::after{content:"";position:absolute;top:-1px;left:0;height:2px;width:0;background:var(--green);transition:width 1.2s var(--ease) calc(var(--i)*.18s)}
+.steps.in .step::after{width:100%}
+.step h4{font-weight:400;font-size:22px;letter-spacing:-.02em;margin:16px 0 8px;line-height:1.15}
+.step p{font-size:15px;color:rgba(238,235,225,.7)}
+
+/* about */
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
+.checks{list-style:none;margin-top:28px;display:grid;gap:12px}
+.checks li{display:flex;gap:12px;align-items:flex-start}
+.checks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.5l3 3 7-7' fill='none' stroke='%2323241f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.stat{padding:26px;border-radius:var(--r);background:var(--paper)}
+.stat b{display:block;font-weight:300;font-size:clamp(44px,5vw,64px);letter-spacing:-.05em;line-height:1}
+.stat span{color:var(--ink-2);font-size:14.5px}
+.stat:nth-child(2){background:var(--green)}.stat:nth-child(2) span{color:#2f3a12}
+.stat:nth-child(3){background:var(--dark);color:#fff}.stat:nth-child(3) span{color:rgba(255,255,255,.8)}
+
+/* reviews */
+.rev{display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:40px;border-radius:28px;background:var(--paper)}
+.score{font-weight:300;font-size:96px;letter-spacing:-.06em;line-height:.9}
+.stars{display:flex;gap:4px;color:var(--sun);font-size:22px;margin-bottom:6px}
+.rev p{color:var(--ink-2)}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:64px}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:20px;letter-spacing:-.015em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line);font-size:20px;transition:transform .35s var(--ease),background .3s}
+details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:#fff;box-shadow:none}
+details .ans{color:var(--ink-2);padding:0 50px 22px 0;animation:fade .5s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(-6px)}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:start}
+.info{display:grid;gap:4px}
+.info a,.info div.row{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.info .k{color:var(--ink-2);font-size:14px}
+.info .v{text-align:right}
+.open{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:6px 12px;border-radius:999px;background:var(--paper);margin-top:20px}
+.open i{width:8px;height:8px;border-radius:50%;background:#aaa}
+.open.yes i{background:#3fae5a;box-shadow:0 0 0 4px rgba(63,174,90,.18);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(63,174,90,.05)}}
+.hours{margin-top:18px;font-size:14.5px;color:var(--ink-2);display:grid;grid-template-columns:auto 1fr;gap:4px 24px}
+.hours .today{color:var(--ink);font-weight:500}
+.areas{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.areas span{font-size:13px;padding:6px 11px;border-radius:999px;background:var(--paper)}
+
+.form{background:var(--paper);border-radius:28px;padding:32px}
+.prog{display:flex;gap:6px;margin-bottom:26px}
+.prog i{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.prog i.on::after{transform:none}
+.fstep{display:none}
+.fstep.act{display:block;animation:fade .5s var(--ease)}
+.fstep h3{font-weight:400;font-size:26px;letter-spacing:-.025em;margin-bottom:6px}
+.fstep > p{color:var(--ink-2);font-size:15px;margin-bottom:20px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0}
+.opt span{display:flex;align-items:center;gap:10px;padding:14px;border-radius:14px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line);font-size:15px;cursor:pointer;transition:.2s}
+.opt input:checked + span{box-shadow:inset 0 0 0 2px var(--forest);background:#fff}
+.opt input:focus-visible + span{outline:2px solid var(--clay);outline-offset:2px}
+.opt span::before{content:"";width:18px;height:18px;border-radius:6px;box-shadow:inset 0 0 0 1.5px var(--ink-2);flex:none;transition:.2s}
+.opt input:checked + span::before{background:var(--forest) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:none}
+label.fl{display:block;font-size:13px;color:var(--ink-2);margin:16px 0 6px}
+.inp{width:100%;font:inherit;font-size:16px;padding:14px 16px;border-radius:14px;border:0;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);transition:box-shadow .2s}
+.inp:focus{outline:0;box-shadow:inset 0 0 0 2px var(--forest)}
+textarea.inp{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.range-out{float:right;color:var(--ink);font-weight:500}
+input[type=range].rg{width:100%;accent-color:var(--forest);margin-top:6px}
+.fnav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.back{font-size:15px;color:var(--ink-2);padding:10px 0}
+.err{color:#a3402a;font-size:13.5px;margin-top:10px;min-height:1em}
+.done{text-align:left}
+.done .big{width:56px;height:56px;border-radius:50%;background:var(--moss);display:grid;place-items:center;margin-bottom:18px}
+.sum{white-space:pre-wrap;font-size:14px;background:var(--paper-2);border-radius:14px;padding:16px;margin:16px 0;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+
+/* footer */
+footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
+.foot-top{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;margin-top:64px}
+.foot-top .brand{height:84px;width:auto}
+.card-info{display:grid;grid-template-columns:auto 1fr;gap:0 28px;border-left:1px solid rgba(255,255,255,.25);padding-left:28px}
+.card-info .who b{display:block;font-weight:600;font-size:20px;color:#fff}
+.card-info .who span{display:block;font-size:17px;color:#e4e4e6;line-height:1.6}
+.card-info ul{list-style:none;display:grid;gap:10px;font-size:15px}
+.card-info li{display:flex;gap:10px;align-items:center}
+.card-info li svg{width:16px;height:16px;flex:none;color:var(--green)}
+.card-info a{text-decoration:none}.card-info a:hover{color:var(--green)}
+@media (max-width:820px){.foot-top{grid-template-columns:1fr}.card-info{grid-template-columns:1fr;gap:18px}}
+.foot-big{font-weight:300;font-size:clamp(48px,10vw,140px);letter-spacing:-.05em;line-height:.95;color:#fff}
+
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:14px;color:#b9babf}
+.foot a{text-decoration:none}
+
+/* mobile bar */
+.mbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:none;gap:8px;padding:6px;border-radius:999px;background:rgba(79,80,87,.96);backdrop-filter:blur(10px);transform:translateY(140%);transition:transform .5s var(--ease)}
+.mbar.show{transform:none}
+.mbar a{flex:1;text-align:center;padding:13px;border-radius:999px;color:#fff;text-decoration:none;font-size:15px;font-weight:500}
+.mbar a.p{background:var(--green);color:var(--on-green)}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:80;background:#2a2b30;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s;visibility:hidden}
+.lb.is-open{visibility:visible}
+.lb-track{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior:contain;scrollbar-width:none}
+.lb-track::-webkit-scrollbar{display:none}
+.lb-slide{flex:0 0 100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;padding:72px 16px 8px}
+.lb-slide img{max-width:min(1200px,100%);max-height:100%;object-fit:contain;border-radius:14px;display:block}
+.lb.is-open{opacity:1;pointer-events:auto}
+
+
+.lb .bar{display:flex;justify-content:space-between;align-items:center;width:min(1200px,100% - 32px);margin:0 auto;color:#fff;padding:14px 0 calc(16px + env(safe-area-inset-bottom));gap:16px}
+.lb .bar small{opacity:.6;display:block}
+.lb .ctl{display:flex;gap:8px;white-space:nowrap;flex:none}
+.lb .ctl button{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:18px}
+.lb .ctl button:hover{background:var(--green);color:var(--on-green)}
+.lb .x{position:absolute;z-index:2;top:calc(14px + env(safe-area-inset-top));right:14px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:22px}
+
+/* responsive */
+@media (max-width:980px){
+  .nav{display:none}.burger{display:flex}
+  .svc{grid-template-columns:1fr 1fr}.sv.feat{grid-column:span 2}
+  .rail .card{flex-basis:calc((100vw - 56px)/2)}
+  .steps{grid-template-columns:1fr 1fr}
+  .about,.faq,.contact{grid-template-columns:1fr;gap:40px}
+  .rev{grid-template-columns:1fr;gap:18px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  section{padding:80px 0}
+  .sec-head{grid-template-columns:1fr}
+  .svc{grid-template-columns:1fr;gap:12px}.sv.feat{grid-column:auto}
+  .sv{min-height:0}
+  .steps{grid-template-columns:1fr}
+  .step{padding-right:0}
+  .ba{aspect-ratio:4/5}
+  .hero-copy{padding-top:96px}
+  .hdr .btn{display:none}
+  .meta-strip{display:none}
+  .hero-ctas .btn{flex:1;justify-content:center}
+  .opts,.row2{grid-template-columns:1fr}
+  .form{padding:22px;border-radius:22px}
+  .rev{padding:28px}.score{font-size:72px}
+  .mbar{display:flex}
+  .dark{margin:0 6px}
+
+  /* ---- mobile-first refinements ---- */
+  .wrap{width:calc(100% - 32px)}
+  .hdr .wrap{height:60px}.logo .brand{height:30px}
+  .mmenu{padding-top:88px}
+  h2{font-size:clamp(36px,10.5vw,46px)}
+  .lead{font-size:16.5px}
+  .sec-head{margin-bottom:28px;gap:14px}
+  .hero h1{font-size:clamp(44px,13vw,60px)}
+  .hero-ctas{bottom:calc(22px + env(safe-area-inset-bottom))}
+  .hero-ctas .wrap{gap:8px!important}
+  .btn{padding:14px 18px;min-height:48px}
+  .rail{gap:12px;padding-inline:16px;scroll-padding-inline:16px}
+  .rail .card{flex-basis:84vw}
+  .card .ph{aspect-ratio:4/5}
+  .rail-ctl .arrows{display:none}
+  .tabs{margin:44px -16px 16px;padding:0 16px 4px}
+  .tab{padding:11px 16px}
+  .sv{padding:20px 20px 22px;display:grid;grid-template-columns:44px 1fr;column-gap:14px;align-items:start}
+  .sv .ico{width:44px;height:44px;grid-row:span 2}
+  .sv h3{font-size:22px;margin:0 40px 6px 0;padding-top:8px}
+  .sv p{font-size:15px;grid-column:2}
+  .sv .chips{grid-column:2;margin-top:12px}
+  .sv .go{top:18px;right:16px;width:36px;height:36px}
+  .dark{border-radius:22px}
+  .steps{padding-left:22px;border-left:2px solid rgba(255,255,255,.14);gap:0}
+  .step{border-top:0;padding:0 0 26px 6px}
+  .step::after{display:none}
+  .step::before{position:absolute;left:-36px;top:0;width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--on-green);opacity:1;display:grid;place-items:center;font-size:11px;font-weight:600}
+  .step h4{margin:0 0 6px;font-size:20px;padding-top:2px}
+  .stats{gap:10px}.stat{padding:18px}.stat b{font-size:40px}
+  .about{gap:32px}
+  summary{font-size:17px;padding:18px 0}
+  details .ans{padding-right:0}
+  .info a,.info div.row{padding:15px 0}
+  .opts{grid-template-columns:1fr 1fr;gap:6px}
+  .opt span{padding:12px 10px;font-size:14px;gap:8px}
+  .fnav .btn{flex:1;justify-content:center;margin-left:16px}
+  .actions .btn{flex:1 1 100%;justify-content:center}
+  .foot-big{font-size:clamp(42px,12vw,56px)}
+  .foot-top .brand{height:64px}
+  footer{padding:64px 0 110px}
+  .lb-slide{padding:64px 10px 4px}
+  .lb .ctl button{width:44px;height:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+
+
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="AREA Galabau – zur Startseite"><svg class="brand" role="img" aria-label="AREA Galabau" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2620 871"><path fill="#fff" fill-rule="evenodd" d="M2063,347 2066,344 2350,344 2354,346 2563,555 2560,558 2067,558 2063,555ZM58,555 267,345 554,344 558,347 558,554 554,558 61,558ZM716,346 720,343 908,344 915,352 1033,553 1033,556 1031,558 718,557 716,555ZM2063,60 2067,58 2318,309 2321,315 2065,316 2063,313ZM556,58 558,60 557,315 301,316 299,314 553,59ZM2087,35 2581,34 2586,37 2586,532 2584,535 2086,38ZM1392,35 1909,34 1913,37 1913,555 1910,558 1393,558 1390,555 1390,347 1392,344 1683,343 1685,341 1685,317 1683,315 1393,315 1390,312 1390,37ZM1059,34 1234,34 1239,38 1239,555 1235,558 1070,557 1064,551 943,345 947,342 1054,342 1056,339 1055,38ZM716,36 718,34 1027,35 1029,38 1029,313 1023,315 887,316 718,315 716,313ZM534,35 534,39 37,535 34,527 35,37 39,34ZM8,7 6,16 7,584 11,586 584,585 586,583 586,9 584,7ZM2614,8 2610,6 2036,7 2034,9 2035,585 2613,585ZM1361,8 1362,584 1560,585 1940,583 1940,8 1649,6 1364,6ZM689,6 688,583 1265,584 1267,581 1267,9 1265,7 1257,6Z"/><path fill="#fff" fill-opacity=".62" fill-rule="evenodd" d="M1616,808 1619,805 1624,804 1673,805 1676,808 1675,845 1672,847 1618,846 1616,843ZM352,853 353,860 356,863 361,864 429,864 437,862 440,853 440,806 438,799 435,797 385,797 380,802 380,808 385,813 417,813 422,816 423,842 420,846 359,847ZM1319,761 1324,763 1344,813 1342,817 1301,817 1298,815 1299,808ZM1964,760 1968,762 1988,813 1986,817 1944,817 1942,815 1944,806ZM705,760 709,765 728,813 726,817 684,817 682,815 683,808 699,769ZM1651,751 1653,754 1652,786 1648,788 1618,787 1616,784 1617,754 1620,752ZM2243,737 2238,745 2238,818 2243,861 2251,864 2333,864 2340,862 2343,858 2342,738 2333,736 2327,742 2326,844 2322,847 2262,847 2258,843 2258,746 2253,737ZM1960,736 1952,742 1906,846 1903,854 1903,860 1909,865 1915,865 1920,862 1931,837 1937,832 1992,832 1998,836 2009,861 2014,865 2021,865 2026,861 2027,857 2025,849 1980,746 1974,738 1969,736ZM1312,738 1306,745 1259,853 1259,861 1265,865 1273,864 1277,860 1287,837 1293,832 1349,832 1355,838 1365,861 1370,865 1379,864 1382,861 1382,852 1334,743 1325,736 1316,736ZM985,737 980,744 980,856 982,861 990,864 1051,864 1058,862 1060,860 1060,854 1054,849 1005,849 1000,845 1000,745 995,737ZM700,736 692,742 643,853 643,860 649,865 659,863 671,837 677,832 732,832 738,836 749,861 754,865 760,865 766,861 766,852 722,751 714,738 709,736ZM1600,737 1596,745 1596,855 1598,861 1606,864 1689,865 1692,863 1694,859 1692,792 1690,789 1678,788 1672,785 1670,737 1665,734 1605,734ZM315,814 318,816 325,816 330,810 330,757 332,753 434,752 439,750 441,747 440,737 434,734 322,734 317,736 314,740 313,747 313,807Z"/></svg></a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="#projekte">Projekte</a><a href="#leistungen">Leistungen</a><a href="#ablauf">Ablauf</a><a href="#ueber">Über uns</a><a href="#faq">FAQ</a>
+      <a href="#kontakt" class="btn">Jetzt anfragen <span class="arr">→</span></a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+<div class="mmenu" id="mmenu">
+  <a href="#projekte"><span>01</span>Projekte</a>
+  <a href="#leistungen"><span>02</span>Leistungen</a>
+  <a href="#ablauf"><span>03</span>Ablauf</a>
+  <a href="#ueber"><span>04</span>Über uns</a>
+  <a href="#faq"><span>05</span>FAQ</a>
+  <a href="#kontakt"><span>06</span>Kontakt</a>
+  <a href="#kontakt" class="btn">Kostenlose Besichtigung <span class="arr">→</span></a>
+</div>
+
+<main id="top">
+  <!-- HERO: sketch turns into the finished garden as you scroll -->
+  <div class="hero-track" id="heroTrack">
+    <div class="hero" id="hero">
+      <div id="heroScene"></div>
+      <div class="hero-copy">
+        <div class="wrap">
+          <div class="eyebrow">Garten- & Landschaftsbau · Ravensburg & Bodensee</div>
+          <h1><span class="l l1">Erst gezeichnet.</span><span class="l l2"><em>Dann gebaut.</em></span></h1>
+        </div>
+      </div>
+      <div class="hero-ctas"><div class="wrap" style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#kontakt" class="btn">Kostenlose Besichtigung <span class="arr">→</span></a>
+        <a href="#projekte" class="btn ghost">Projekte ansehen</a>
+      </div></div>
+      <div class="meta-strip"><span>Meisterbetrieb seit 2012</span><span>300+ Projekte · ★ 5,0 bei Google</span></div>
+      <button class="hint" id="hint" aria-label="Garten fertig bauen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L4.3 15a1.5 1.5 0 0 1 2.4-1.8L9 15"/></svg>
+        <span>Nach oben wischen<small>oder hier tippen</small></span>
+      </button>
+      <div class="hero-shade" id="heroShade"></div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <!-- 01 PROJECTS -->
+    <section id="projekte">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="num"><b>01</b> Projekte</div><h2>Unsere <em>Projekte.</em></h2></div>
+          <p class="lead">Ausgewählte Arbeiten aus der Region. Ziehen Sie den Regler und sehen Sie den Unterschied – vorher und nachher.</p>
+        </div>
+        <div class="reveal">
+          <div class="ba" id="ba">
+            <div class="bot"></div><div class="top"></div>
+            <span class="tag a">Vorher</span><span class="tag b">Nachher</span>
+            <div class="handle"></div>
+            <input type="range" min="0" max="100" value="50" aria-label="Entwurf und Ergebnis vergleichen">
+          </div>
+          <div class="ba-cap"><span>Hoffläche in Betonpflaster – vom Unterbau zur fertigen Fläche</span><span>Vorher → Nachher</span></div>
+        </div>
+
+        <div class="tabs reveal" id="tabs" role="tablist"></div>
+        <div class="rail" id="grid" aria-label="Projekte – zum Blättern wischen"></div>
+        <div class="rail-ctl"><div class="rail-prog"><i id="railBar"></i></div><div class="arrows"><button id="rP" aria-label="Zurück">←</button><button id="rN" aria-label="Weiter">→</button></div></div>
+        
+      </div>
+    </section>
+
+    <!-- 02 SERVICES -->
+    <section id="leistungen" style="padding-top:20px">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="num"><b>02</b> Leistungen</div><h2>Alles für Ihren <em>Außenbereich.</em></h2></div>
+          <p class="lead">Von den Erdarbeiten bis zum letzten Rasenstück – alles aus einer Hand, mit Festpreis-Garantie.</p>
+        </div>
+        <div class="svc" id="svc"></div>
+      </div>
+    </section>
+
+    <!-- 03 PROCESS -->
+    <section id="ablauf" class="dark">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="num"><b>03</b> Ablauf</div><h2>In fünf Schritten <em>zum Garten.</em></h2></div>
+          <p class="lead">Klar, planbar und ohne Überraschungen bei den Kosten.</p>
+        </div>
+        <div class="steps reveal" id="steps">
+          <div class="step" style="--i:0"><h4>Anfrage</h4><p>Kurz Ihr Vorhaben schildern – wir melden uns innerhalb von 24 Stunden.</p></div>
+          <div class="step" style="--i:1"><h4>Besichtigung vor Ort</h4><p>Kostenlos und unverbindlich. Wir messen auf und beraten zu Material und Gestaltung.</p></div>
+          <div class="step" style="--i:2"><h4>Festpreis-Angebot</h4><p>Ein verbindliches Angebot – der Preis, den wir nennen, ist der Preis, den Sie zahlen.</p></div>
+          <div class="step" style="--i:3"><h4>Umsetzung</h4><p>Ausführung durch unseren Meisterbetrieb, sauber und termingerecht.</p></div>
+          <div class="step" style="--i:4"><h4>Übergabe</h4><p>Gemeinsame Abnahme und Pflegetipps für Ihren neuen Außenbereich.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 ABOUT -->
+    <section id="ueber">
+      <div class="wrap about">
+        <div class="reveal">
+          <div class="num"><b>04</b> Über uns</div>
+          <h2>Handwerk aus der <em>Region.</em></h2>
+          <p class="lead" style="margin-top:22px">Seit 2012 gestalten wir Außenanlagen in Oberschwaben und am Bodensee – schön, architektonisch stimmig und gebaut, um Jahrzehnte zu halten. Ein Team, das die Präzision eines Ingenieurbüros mit der Geduld von Gartenkünstlern verbindet.</p>
+          <ul class="checks">
+            <li>Kostenlose Besichtigung vor Ort</li>
+            <li>Festpreis-Garantie – keine versteckten Kosten</li>
+            <li>Antwort innerhalb von 24 Stunden</li>
+            <li>Zuverlässig, pünktlich, sauber und transparent</li>
+          </ul>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><b data-count="2012" data-plain="1">2012</b><span>Meisterbetrieb seit</span></div>
+          <div class="stat"><b data-count="300" data-suffix="+">300+</b><span>abgeschlossene Projekte</span></div>
+          <div class="stat"><b data-count="5" data-dec="1">5,0</b><span>Google-Bewertung</span></div>
+          <div class="stat"><b data-count="24" data-suffix=" h">24 h</b><span>bis zur Rückmeldung</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 REVIEWS + FAQ -->
+    <section id="faq" style="padding-top:20px">
+      <div class="wrap">
+        <div class="rev reveal">
+          <div class="score">5,0</div>
+          <div><div class="stars">★★★★★</div><p><b style="color:var(--ink);font-weight:500">Bestnote aus 8 Google-Bewertungen.</b><br>Lesen Sie, was unsere Kundinnen und Kunden über die Zusammenarbeit sagen.</p></div>
+          <a class="btn ghost" href="https://www.google.com/maps/search/AREA+Galabau+Ravensburg" target="_blank" rel="noopener">Bewertungen lesen <span class="arr">↗</span></a>
+        </div>
+
+        <div class="faq" style="margin-top:110px">
+          <div class="reveal"><div class="num"><b>05</b> Häufige Fragen</div><h2>Gut zu <em>wissen.</em></h2></div>
+          <div class="reveal">
+            <details open><summary>Kostet die Besichtigung etwas?</summary><div class="ans">Nein. Die Besichtigung vor Ort ist kostenlos und unverbindlich. Wir sehen uns die Fläche an, messen auf und besprechen Ihre Wünsche.</div></details>
+            <details><summary>Was bedeutet die Festpreis-Garantie?</summary><div class="ans">Nach der Besichtigung erhalten Sie ein verbindliches Angebot. Der vereinbarte Preis gilt – ohne nachträgliche Aufschläge.</div></details>
+            <details><summary>In welchen Orten sind Sie tätig?</summary><div class="ans">Wir arbeiten in Ravensburg, Friedrichshafen, Weingarten und in der gesamten Bodenseeregion. Fragen Sie gern auch für umliegende Orte an.</div></details>
+            <details><summary>Wie schnell bekomme ich eine Antwort?</summary><div class="ans">Auf jede Anfrage melden wir uns innerhalb von 24 Stunden – an Werktagen meist noch am selben Tag.</div></details>
+            <details><summary>Übernehmen Sie auch die Erdarbeiten?</summary><div class="ans">Ja. Aushub, Planierung und Unterbau gehören zu unseren Leistungen – so kommt alles aus einer Hand.</div></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 CONTACT -->
+    <section id="kontakt" style="padding-top:20px">
+      <div class="wrap contact">
+        <div class="reveal">
+          <div class="num"><b>06</b> Kontakt</div>
+          <h2>Lassen Sie uns <em>loslegen.</em></h2>
+          <div class="open" id="open"><i></i><span>…</span></div>
+          <div class="info" style="margin-top:22px">
+            <a href="tel:+4917620785893"><span class="k">Telefon</span><span class="v">0176 20785893</span></a>
+            <a href="mailto:area.galabau@gmail.com"><span class="k">E-Mail</span><span class="v">area.galabau@gmail.com</span></a>
+            <div class="row"><span class="k">Adresse</span><span class="v">Königin-Katharina-Straße<br>Ravensburg</span></div>
+            <div class="row"><span class="k">Ansprechpartner</span><span class="v">Armin Besirevic</span></div>
+          </div>
+          <div class="hours" id="hours"></div>
+          <div class="areas"><span>Ravensburg</span><span>Friedrichshafen</span><span>Weingarten</span><span>Bodenseeregion</span></div>
+        </div>
+
+        <form class="form reveal" id="form" novalidate>
+          <div class="prog"><i class="on"></i><i></i><i></i></div>
+
+          <div class="fstep act" data-s="0">
+            <h3>Was dürfen wir bauen?</h3>
+            <p>Mehrfachauswahl möglich.</p>
+            <div class="opts" id="svcOpts"></div>
+          </div>
+
+          <div class="fstep" data-s="1">
+            <h3>Erzählen Sie uns mehr.</h3>
+            <p>Grobe Angaben reichen völlig.</p>
+            <label class="fl">Ungefähre Fläche <span class="range-out" id="areaOut">40 m²</span></label>
+            <input class="rg" type="range" id="area" min="5" max="400" step="5" value="40">
+            <div class="row2">
+              <div><label class="fl" for="ort">Ort</label>
+                <select class="inp" id="ort"><option>Ravensburg</option><option>Friedrichshafen</option><option>Weingarten</option><option>Bodenseeregion – anderer Ort</option></select></div>
+              <div><label class="fl" for="when">Wunschzeitraum</label>
+                <select class="inp" id="when"><option>So bald wie möglich</option><option>In 1–3 Monaten</option><option>In 3–6 Monaten</option><option>Noch offen</option></select></div>
+            </div>
+            <label class="fl" for="desc">Beschreibung (optional)</label>
+            <textarea class="inp" id="desc" placeholder="z. B. alte Terrasse entfernen, neue aus Feinsteinzeug, ca. 6 × 5 m"></textarea>
+          </div>
+
+          <div class="fstep" data-s="2">
+            <h3>Wie erreichen wir Sie?</h3>
+            <p>Wir melden uns innerhalb von 24 Stunden.</p>
+            <label class="fl" for="name">Name</label>
+            <input class="inp" id="name" autocomplete="name" placeholder="Vor- und Nachname">
+            <label class="fl" for="reach">Telefon oder E-Mail</label>
+            <input class="inp" id="reach" autocomplete="tel" placeholder="+49 … oder name@mail.de">
+            <label class="fl" for="cb">Beste Zeit für einen Rückruf</label>
+            <select class="inp" id="cb"><option>Egal</option><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select>
+          </div>
+
+          <div class="fstep done" data-s="3">
+            <div class="big"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#23241f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Ihre Anfrage ist vorbereitet.</h3>
+            <p style="color:var(--ink-2);font-size:15px">Senden Sie sie per E-Mail oder WhatsApp – oder rufen Sie uns direkt an.</p>
+            <div class="sum" id="sum"></div>
+            <div class="actions">
+              <a class="btn" id="mail" href="#">Per E-Mail senden <span class="arr">→</span></a>
+              <a class="btn ghost" id="wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <button type="button" class="btn ghost" id="copy">Text kopieren</button>
+              <a class="btn ghost" href="tel:+4917620785893">Anrufen</a>
+            </div>
+          </div>
+
+          <div class="err" id="err" role="alert"></div>
+          <div class="fnav" id="fnav">
+            <button type="button" class="back" id="prev" style="visibility:hidden">← Zurück</button>
+            <button type="submit" class="btn" id="next">Weiter <span class="arr">→</span></button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="foot-big">Ihr Garten.<br><em>Unser Handwerk.</em></div>
+        <div class="foot-top">
+          <a href="#top" aria-label="AREA Galabau – nach oben"><svg class="brand" role="img" aria-label="AREA Galabau" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2620 871"><path fill="#fff" fill-rule="evenodd" d="M2063,347 2066,344 2350,344 2354,346 2563,555 2560,558 2067,558 2063,555ZM58,555 267,345 554,344 558,347 558,554 554,558 61,558ZM716,346 720,343 908,344 915,352 1033,553 1033,556 1031,558 718,557 716,555ZM2063,60 2067,58 2318,309 2321,315 2065,316 2063,313ZM556,58 558,60 557,315 301,316 299,314 553,59ZM2087,35 2581,34 2586,37 2586,532 2584,535 2086,38ZM1392,35 1909,34 1913,37 1913,555 1910,558 1393,558 1390,555 1390,347 1392,344 1683,343 1685,341 1685,317 1683,315 1393,315 1390,312 1390,37ZM1059,34 1234,34 1239,38 1239,555 1235,558 1070,557 1064,551 943,345 947,342 1054,342 1056,339 1055,38ZM716,36 718,34 1027,35 1029,38 1029,313 1023,315 887,316 718,315 716,313ZM534,35 534,39 37,535 34,527 35,37 39,34ZM8,7 6,16 7,584 11,586 584,585 586,583 586,9 584,7ZM2614,8 2610,6 2036,7 2034,9 2035,585 2613,585ZM1361,8 1362,584 1560,585 1940,583 1940,8 1649,6 1364,6ZM689,6 688,583 1265,584 1267,581 1267,9 1265,7 1257,6Z"/><path fill="#fff" fill-opacity=".62" fill-rule="evenodd" d="M1616,808 1619,805 1624,804 1673,805 1676,808 1675,845 1672,847 1618,846 1616,843ZM352,853 353,860 356,863 361,864 429,864 437,862 440,853 440,806 438,799 435,797 385,797 380,802 380,808 385,813 417,813 422,816 423,842 420,846 359,847ZM1319,761 1324,763 1344,813 1342,817 1301,817 1298,815 1299,808ZM1964,760 1968,762 1988,813 1986,817 1944,817 1942,815 1944,806ZM705,760 709,765 728,813 726,817 684,817 682,815 683,808 699,769ZM1651,751 1653,754 1652,786 1648,788 1618,787 1616,784 1617,754 1620,752ZM2243,737 2238,745 2238,818 2243,861 2251,864 2333,864 2340,862 2343,858 2342,738 2333,736 2327,742 2326,844 2322,847 2262,847 2258,843 2258,746 2253,737ZM1960,736 1952,742 1906,846 1903,854 1903,860 1909,865 1915,865 1920,862 1931,837 1937,832 1992,832 1998,836 2009,861 2014,865 2021,865 2026,861 2027,857 2025,849 1980,746 1974,738 1969,736ZM1312,738 1306,745 1259,853 1259,861 1265,865 1273,864 1277,860 1287,837 1293,832 1349,832 1355,838 1365,861 1370,865 1379,864 1382,861 1382,852 1334,743 1325,736 1316,736ZM985,737 980,744 980,856 982,861 990,864 1051,864 1058,862 1060,860 1060,854 1054,849 1005,849 1000,845 1000,745 995,737ZM700,736 692,742 643,853 643,860 649,865 659,863 671,837 677,832 732,832 738,836 749,861 754,865 760,865 766,861 766,852 722,751 714,738 709,736ZM1600,737 1596,745 1596,855 1598,861 1606,864 1689,865 1692,863 1694,859 1692,792 1690,789 1678,788 1672,785 1670,737 1665,734 1605,734ZM315,814 318,816 325,816 330,810 330,757 332,753 434,752 439,750 441,747 440,737 434,734 322,734 317,736 314,740 313,747 313,807Z"/></svg></a>
+          <div class="card-info">
+            <div class="who"><b>AREA</b><span>Galabau</span><span>Armin Besirevic</span></div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Königin-Katharina-Straße, Ravensburg</li>
+              <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18a1 1 0 0 1 1 1v.4l-10 6.2L2 6.4V6a1 1 0 0 1 1-1Zm-1 3.7 10 6.2 10-6.2V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8.7Z"/></svg><a href="mailto:area.galabau@gmail.com">area.galabau@gmail.com</a></li>
+              <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z"/></svg><a href="tel:+4917620785893">0176 20785893</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot">
+          <span>© <span id="yr"></span> AREA Galabau · Garten- & Landschaftsbau · Ravensburg</span>
+          <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<nav class="mbar" id="mbar" aria-label="Schnellkontakt">
+  <a href="tel:+4917620785893">Anrufen</a>
+  <a href="#kontakt" class="p">Anfrage</a>
+</nav>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Projektansicht">
+  <button class="x" id="lbX" aria-label="Schließen">×</button>
+  <div class="lb-track" id="lbTrack"></div>
+  <div class="bar"><div><b id="lbT"></b><small id="lbC"></small></div>
+    <div class="ctl"><span id="lbN" style="align-self:center;opacity:.6;margin-right:8px;font-size:14px"></span><button id="lbP" aria-label="Vorheriges">←</button><button id="lbNx" aria-label="Nächstes">→</button></div></div>
+</div>
+
+<script>
+/* Each photo exists twice: a pencil sketch (img/*-s.jpg) and the
+   finished photo, which gently fades in over the sketch. */
+function photoScene(name,alt=''){
+  return `<div class="scene"><img class="sk" src="img/${name}-s.jpg" alt="" loading="lazy" decoding="async"><img class="real" src="img/${name}.jpg" alt="${alt}" loading="lazy" decoding="async"></div>`;
+}
+const SIZE={p10:[1600,1548],hero:[4,3],p1:[4,3],p2:[3,4],p3:[4,3],p4:[3,4],p5:[4,3],p6:[3,4],p7:[4,3],p8:[3,4],p9:[3,4]};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- HERO ---------- */
+const hero=$('#hero');
+$('#heroScene').innerHTML=photoScene('hero','Terrasse mit Sichtschutzzaun und Hochbeeten').replace(/ loading="lazy"/g,'');
+const heroReal=$('#heroScene .real');
+const track=$('#heroTrack'), shade=$('#heroShade'), hint=$('#hint');
+let ticking=false,lastY=0;
+function heroUpdate(){
+  const vh=innerHeight, sc=-track.getBoundingClientRect().top, len=track.offsetHeight-2*vh;
+  const p=reduce?1:clamp(sc/len), q=clamp((sc-len)/vh);
+  const e=clamp((p-.03)/.85);
+  heroReal.style.opacity=e.toFixed(3);
+  heroReal.style.filter=`saturate(${(.35+.65*e).toFixed(3)}) contrast(${(.92+.08*e).toFixed(3)})`;
+  heroReal.style.transform=`scale(${(1.03-.03*e).toFixed(4)})`;
+  hero.classList.toggle('built',p>.55);
+  hint.style.opacity=clamp(1-p*5);hint.style.pointerEvents=p>.15?'none':'auto';
+  hero.style.transform=q>0?`scale(${1-.06*q})`:'';
+  hero.style.borderRadius=q>0?`${28*q}px`:'';
+  shade.style.opacity=(q*.45).toFixed(3);
+}
+hint.addEventListener('click',()=>{const len=track.offsetHeight-2*innerHeight;scrollTo({top:len*.92,behavior:'smooth'})});
+
+/* ---------- header / mobile bar ---------- */
+const hdr=$('#hdr'), mbar=$('#mbar');
+function chrome(){
+  const y=scrollY;
+  hdr.classList.toggle('solid',y>track.offsetHeight-innerHeight*1.2);
+  hdr.classList.toggle('hide',y>lastY&&y>innerHeight*2&&!document.body.classList.contains('menu-open'));
+  const k=$('#kontakt').getBoundingClientRect();
+  mbar.classList.toggle('show',y>track.offsetHeight-innerHeight*1.2&&!(k.top<innerHeight&&k.bottom>0));
+  lastY=y;
+}
+addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{heroUpdate();chrome();ticking=false});ticking=true}},{passive:true});
+addEventListener('resize',heroUpdate);
+heroUpdate();chrome();
+$('#burger').addEventListener('click',()=>{const o=document.body.classList.toggle('menu-open');$('#burger').setAttribute('aria-expanded',o)});
+$$('.mmenu a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+
+/* ---------- before / after ---------- */
+const ba=$('#ba');
+ba.querySelector('.bot').innerHTML='<img src="img/ba-after.jpg" alt="Hoffläche nach dem Pflastern">';
+ba.querySelector('.top').innerHTML='<img src="img/ba-before.jpg" alt="Hoffläche vor dem Pflastern, mit verdichtetem Schotterunterbau">';
+const baIn=ba.querySelector('input');
+const setX=v=>ba.style.setProperty('--x',v+'%');
+baIn.addEventListener('input',()=>setX(baIn.value));
+let baDrag=false;const baMove=e=>{const r=ba.getBoundingClientRect();const v=clamp((e.clientX-r.left)/r.width,0,1)*100;setX(v.toFixed(2));baIn.value=v};
+ba.addEventListener('pointerdown',e=>{baDrag=true;ba.setPointerCapture(e.pointerId);baMove(e)});
+ba.addEventListener('pointermove',e=>{if(baDrag)baMove(e)});
+['pointerup','pointercancel'].forEach(t=>ba.addEventListener(t,()=>baDrag=false));
+// gentle auto-demo the first time it comes into view
+new IntersectionObserver((en,ob)=>{if(en[0].isIntersecting&&!reduce){ob.disconnect();let t0=null;
+  const run=t=>{t0??=t;const k=(t-t0)/2200;if(k>1){setX(50);baIn.value=50;return}setX((50+Math.sin(k*Math.PI*2)*28).toFixed(1));requestAnimationFrame(run)};requestAnimationFrame(run)}},{threshold:.5}).observe(ba);
+
+/* ---------- projects gallery ---------- */
+const CATS={terrasse:'Terrasse',pflaster:'Pflaster & Wege',garten:'Garten & Rasen',zaun:'Zaun',erde:'Erdarbeiten'};
+const PROJ=[
+  {t:'Terrasse mit Blockstufen-Sockel',c:'terrasse',img:'p7'},
+  {t:'Hofpflaster am Bauernhaus',c:'pflaster',img:'p10'},
+  {t:'Sichtschutzzaun, Hochbeete & Terrasse',c:'zaun',img:'hero'},
+  {t:'Großformat-Terrasse mit Stufen',c:'terrasse',img:'p1'},
+  {t:'Trittplatten im Kiesweg',c:'pflaster',img:'p5'},
+  {t:'Naturstein-Blockstufen',c:'terrasse',img:'p2'},
+  {t:'Rasen, Terrasse & Kiesstreifen',c:'garten',img:'p3'},
+  {t:'Betonpflaster mit Sichtbetonstelen',c:'pflaster',img:'p8'},
+  {t:'Rollrasen & Terrassenzugang',c:'garten',img:'p6'},
+  {t:'Rasenkante mit Kiesbeet',c:'garten',img:'p4'},
+  {t:'Unterbau & Natursteinmauer',c:'erde',img:'p9'},
+];
+const grid=$('#grid'),tabs=$('#tabs');
+const counts=PROJ.reduce((a,p)=>(a[p.c]=(a[p.c]||0)+1,a),{});
+tabs.innerHTML=`<button class="tab act" data-c="all" role="tab">Alle<sup>${PROJ.length}</sup></button>`+Object.entries(CATS).map(([k,v])=>`<button class="tab" data-c="${k}" role="tab">${v}<sup>${counts[k]||0}</sup></button>`).join('');
+grid.innerHTML=PROJ.map((p,i)=>`<button class="card" data-i="${i}" data-c="${p.c}" aria-label="${p.t} ansehen"><div class="ph">${photoScene(p.img,p.t)}</div><div class="cap"><div><b>${p.t}</b><small>${CATS[p.c]}</small></div><i>→</i></div></button>`).join('');
+// each card "builds" itself when it scrolls into view
+const cardIO=new IntersectionObserver(en=>en.forEach(e=>{if(e.isIntersecting){const s=e.target.querySelector('.scene');s.classList.add('anim');setTimeout(()=>s.classList.add('on'),150);cardIO.unobserve(e.target)}}),{threshold:.55});
+$$('.card').forEach(c=>cardIO.observe(c));
+let filt='all';
+const bar=$('#railBar'),rP=$('#rP'),rN=$('#rN');
+function railUI(){const max=grid.scrollWidth-grid.clientWidth,k=max>0?grid.scrollLeft/max:0,vis=max>0?grid.clientWidth/grid.scrollWidth:1;
+  bar.style.width=(vis*100)+'%';bar.style.transform=`translateX(${(k*(1/vis-1)*100).toFixed(2)}%)`;rP.disabled=grid.scrollLeft<4;rN.disabled=grid.scrollLeft>max-4}
+grid.addEventListener('scroll',()=>requestAnimationFrame(railUI),{passive:true});addEventListener('resize',railUI);
+const cardW=()=>{const c=grid.querySelector('.card:not(.gone)');return c?c.getBoundingClientRect().width+parseFloat(getComputedStyle(grid).columnGap||16):300};
+rP.onclick=()=>grid.scrollBy({left:-cardW(),behavior:'smooth'});rN.onclick=()=>grid.scrollBy({left:cardW(),behavior:'smooth'});
+// mouse drag-to-scroll on desktop (touch uses native swiping)
+let dx=null,sl=0,moved=0;
+grid.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;dx=e.clientX;sl=grid.scrollLeft;moved=0});
+addEventListener('pointermove',e=>{if(dx===null)return;const d=e.clientX-dx;moved=Math.max(moved,Math.abs(d));if(moved>5)grid.classList.add('dragging');grid.scrollLeft=sl-d});
+addEventListener('pointerup',()=>{if(dx===null)return;dx=null;if(grid.classList.contains('dragging')){const w=cardW(),t=Math.round(grid.scrollLeft/w)*w;grid.classList.remove('dragging');grid.scrollTo({left:t,behavior:'smooth'})}});
+tabs.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;filt=b.dataset.c;
+  $$('.tab').forEach(t=>t.classList.toggle('act',t===b));b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  $$('.card').forEach(c=>{const show=filt==='all'||c.dataset.c===filt;c.classList.toggle('gone',!show);if(show){c.classList.add('in')}});
+  grid.scrollTo({left:0});railUI()});
+railUI();
+
+/* lightbox – native swipe between full photos */
+const lb=$('#lb'),lbTrack=$('#lbTrack');let lbList=[];
+const visible=()=>$$('.card:not(.gone)').map(c=>+c.dataset.i);
+function lbInfo(){const k=Math.round(lbTrack.scrollLeft/lbTrack.clientWidth),p=PROJ[lbList[k]];if(!p)return;
+  $('#lbT').textContent=p.t;$('#lbC').textContent=CATS[p.c];$('#lbN').textContent=`${k+1} / ${lbList.length}`}
+function openLb(i){lbList=visible();
+  lbTrack.innerHTML=lbList.map(j=>`<div class="lb-slide"><img src="img/${PROJ[j].img}.jpg" alt="${PROJ[j].t}" loading="lazy" decoding="async" draggable="false"></div>`).join('');
+  lb.classList.add('is-open');document.body.style.overflow='hidden';
+  lbTrack.scrollTo({left:lbList.indexOf(i)*lbTrack.clientWidth,behavior:'instant'});lbInfo();$('#lbX').focus({preventScroll:true})}
+const closeLb=()=>{lb.classList.remove('is-open');document.body.style.overflow=''};
+const step=d=>lbTrack.scrollBy({left:d*lbTrack.clientWidth,behavior:'smooth'});
+lbTrack.addEventListener('scroll',()=>requestAnimationFrame(lbInfo),{passive:true});
+grid.addEventListener('click',e=>{if(moved>5)return;const c=e.target.closest('.card');if(c)openLb(+c.dataset.i)});
+$('#lbX').onclick=closeLb;$('#lbP').onclick=()=>step(-1);$('#lbNx').onclick=()=>step(1);
+lbTrack.addEventListener('click',e=>{if(e.target.classList.contains('lb-slide'))closeLb()});
+addEventListener('keydown',e=>{if(!lb.classList.contains('is-open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+
+/* ---------- services ---------- */
+const ICON={
+  pflaster:'<rect x="6" y="6" width="18" height="12" rx="1"/><rect x="28" y="6" width="18" height="12" rx="1"/><rect x="6" y="22" width="9" height="12" rx="1"/><rect x="19" y="22" width="18" height="12" rx="1"/><rect x="41" y="22" width="5" height="12" rx="1"/><rect x="6" y="38" width="18" height="8" rx="1"/><rect x="28" y="38" width="18" height="8" rx="1"/>',
+  terrasse:'<path d="M4 34 L26 24 L48 34 L26 44Z"/><path d="M11 31 L33 41M18 28 L40 38M4 34v4l22 10 22-10v-4"/>',
+  garten:'<path d="M26 46V24"/><path d="M26 30c-8 0-13-6-13-14 8 0 13 6 13 14Z"/><path d="M26 24c0-8 5-14 13-14 0 8-5 14-13 14Z"/><path d="M8 46h36"/>',
+  zaun:'<path d="M8 46V14l4-5 4 5v32M22 46V14l4-5 4 5v32M36 46V14l4-5 4 5v32"/><path d="M4 22h44M4 38h44"/>',
+  erde:'<path d="M6 40h40"/><path d="M14 40c2-8 8-12 14-12s10 4 12 12"/><path d="M32 8l-8 18M22 24l6 4"/><circle cx="12" cy="45" r="1"/><circle cx="24" cy="46" r="1"/><circle cx="38" cy="45" r="1"/>',
+  rasen:'<path d="M4 40h44v6H4z"/><path d="M8 40l2-10 2 10M16 40l1-14 2 14M24 40l2-9 2 9M32 40l1-13 2 13M40 40l2-11 2 11"/>'
+};
+const SVC=[
+  {k:'pflaster',t:'Pflasterarbeiten',d:'Einfahrten, Wege, Höfe und Terrassen – in Naturstein oder Beton, mit tragfähigem Unterbau.',c:['Einfahrten','Wege','Naturstein','Beton'],f:1},
+  {k:'terrasse',t:'Terrassenbau',d:'Terrassen aus Holz oder Stein, passend zu Haus und Garten.',c:['Holz','Stein','Feinsteinzeug']},
+  {k:'garten',t:'Gartengestaltung',d:'Beete, Pflanzflächen und Wege – auf Wunsch besonders pflegeleicht.',c:['Beete','Bepflanzung','Pflegeleicht']},
+  {k:'zaun',t:'Zaunbau',d:'Sichtschutz, Sicherheit und klare Grundstücksgrenzen – aus Holz oder Metall.',c:['Sichtschutz','Holz','Metall']},
+  {k:'erde',t:'Erdarbeiten',d:'Aushub, Planierung und Unterbau als solide Grundlage für jedes Projekt.',c:['Aushub','Planierung','Unterbau']},
+  {k:'rasen',t:'Rollrasen',d:'Sofort grün: fachgerecht vorbereitet und verlegt.',c:['Bodenvorbereitung','Verlegung']},
+];
+$('#svc').innerHTML=SVC.map(s=>`<article class="sv reveal${s.f?' feat':''}"><svg class="ico" viewBox="0 0 52 52">${ICON[s.k]}</svg><a class="go" href="#kontakt" aria-label="${s.t} anfragen" data-svc="${s.t}">→</a><h3>${s.t}</h3><p>${s.d}</p><div class="chips">${s.c.map(c=>`<span>${c}</span>`).join('')}</div></article>`).join('');
+$('#svcOpts').innerHTML=SVC.map(s=>`<label class="opt"><input type="checkbox" name="svc" value="${s.t}"><span>${s.t}</span></label>`).join('')+`<label class="opt"><input type="checkbox" name="svc" value="Sonstiges"><span>Sonstiges</span></label>`;
+$$('.sv .go').forEach(a=>a.addEventListener('click',()=>{const i=$(`#svcOpts input[value="${a.dataset.svc}"]`);if(i)i.checked=true}));
+
+/* ---------- reveal on scroll + counters ---------- */
+const io=new IntersectionObserver(en=>en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+  e.target.querySelectorAll?.('[data-count]').forEach(countUp)}}),{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+$$('.reveal').forEach(el=>io.observe(el));
+function countUp(el){if(reduce)return;const to=+el.dataset.count,dec=+el.dataset.dec||0,suf=el.dataset.suffix||'',from=el.dataset.plain?to-14:0;let t0=null;
+  const f=t=>{t0??=t;const k=clamp((t-t0)/1400),v=from+(to-from)*(1-Math.pow(1-k,3));el.textContent=(dec?v.toFixed(dec).replace('.',','):Math.round(v))+suf;if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+
+/* ---------- opening hours, live ---------- */
+const HRS=[null,[8,18],[8,18],[8,18],[8,18],[8,18],[9,13]]; // Sun..Sat
+const DN=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+function hours(){
+  const parts=new Intl.DateTimeFormat('de-DE',{timeZone:'Europe/Berlin',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
+  const wd=['So','Mo','Di','Mi','Do','Fr','Sa'].indexOf(parts.find(p=>p.type==='weekday').value.replace('.',''));
+  const h=+parts.find(p=>p.type==='hour').value+(+parts.find(p=>p.type==='minute').value)/60;
+  const today=HRS[wd],isOpen=today&&h>=today[0]&&h<today[1];
+  let msg;
+  if(isOpen)msg=`Jetzt geöffnet · bis ${today[1]}:00 Uhr`;
+  else{let d=wd,n=0;do{d=(d+1)%7;n++}while(!HRS[d]);
+    const same=today&&h<today[0];msg=same?`Geschlossen · öffnet heute ${today[0]}:00 Uhr`:`Geschlossen · öffnet ${n===1?'morgen':DN[d]} ${HRS[d][0]}:00 Uhr`}
+  const o=$('#open');o.classList.toggle('yes',!!isOpen);o.querySelector('span').textContent=msg;
+  const rows=[['Montag – Freitag','08:00 – 18:00',wd>=1&&wd<=5],['Samstag','09:00 – 13:00',wd===6],['Sonntag','geschlossen',wd===0]];
+  $('#hours').innerHTML=rows.map(r=>`<span class="${r[2]?'today':''}">${r[0]}</span><span class="${r[2]?'today':''}">${r[1]}</span>`).join('');
+}
+hours();setInterval(hours,60000);
+$('#yr').textContent=new Date().getFullYear();
+
+/* ---------- multi-step inquiry ---------- */
+const form=$('#form'),steps=$$('.fstep'),err=$('#err');let si=0;
+$('#area').addEventListener('input',e=>$('#areaOut').textContent=(e.target.value>=400?'400+':e.target.value)+' m²');
+function show(i){si=i;steps.forEach((s,k)=>s.classList.toggle('act',k===i));
+  $$('.prog i').forEach((p,k)=>p.classList.toggle('on',k<=Math.min(i,2)));
+  $('#prev').style.visibility=i>0&&i<3?'visible':'hidden';$('#fnav').style.display=i===3?'none':'flex';
+  $('#next').innerHTML=i===2?'Anfrage vorbereiten <span class="arr">→</span>':'Weiter <span class="arr">→</span>';err.textContent=''}
+$('#prev').onclick=()=>show(si-1);
+form.addEventListener('submit',e=>{e.preventDefault();
+  if(si===0&&!$$('#svcOpts input:checked').length){err.textContent='Bitte wählen Sie mindestens eine Leistung.';return}
+  if(si===2){if(!$('#name').value.trim()||!$('#reach').value.trim()){err.textContent='Bitte Name und Telefon oder E-Mail angeben.';return}
+    const txt=`Anfrage über die Website\n\nLeistungen: ${$$('#svcOpts input:checked').map(i=>i.value).join(', ')}\nFläche: ca. ${$('#areaOut').textContent}\nOrt: ${$('#ort').value}\nZeitraum: ${$('#when').value}\n${$('#desc').value.trim()?'Beschreibung: '+$('#desc').value.trim()+'\n':''}\nName: ${$('#name').value.trim()}\nKontakt: ${$('#reach').value.trim()}\nRückruf: ${$('#cb').value}`;
+    $('#sum').textContent=txt;$('#wa').href='https://wa.me/4917620785893?text='+encodeURIComponent(txt);$('#mail').href='mailto:area.galabau@gmail.com?subject='+encodeURIComponent('Anfrage über die Website – '+$('#name').value.trim())+'&body='+encodeURIComponent(txt);
+    $('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(txt);$('#copy').textContent='Kopiert ✓'}catch{$('#copy').textContent='Bitte manuell kopieren'}};
+    /* For the live site: send `txt` to a form service (e.g. Formspree) or e-mail here. */
+  }
+  show(si+1);form.scrollIntoView({behavior:'smooth',block:'nearest'})});
+</script>
+</body>
+</html>
