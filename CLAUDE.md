@@ -10,14 +10,21 @@ Replaces the old Carrd page https://galabau.carrd.co (use it as the content refe
 ## Files
 
 ```
-index.html               the whole site: HTML + CSS + JS in one file, no dependencies except Google Fonts
+index.html               the whole site: HTML + CSS + JS (+ the import map / loader for the 3D modules)
+js/hero3d.js             3D hero (three.js): sketch → colour → depth
+js/layers3d.js           3D cross-section "Was unter dem Pflaster steckt"
+js/tilt.js               gentle tilt of the gallery card (plain CSS transforms, no three.js)
 favicon.svg              the "A" square from the logo (white on #4f5057)
 apple-touch-icon.png     same, 180px
 img/<name>.jpg           real photos
 img/<name>-s.jpg         pencil-sketch twin of each photo (made with tools/sketch.py)
 img/ba-before.jpg        before/after slider pair, aligned with tools/align_before_after.py
 img/ba-after.jpg
-tools/                   Python helpers (not used by the site at runtime)
+img/hero-depth.png       depth map of hero.jpg (white = near), made with tools/depth.py
+img/hero-lines.json      pencil line work for the 3D hero, made with tools/lines.py
+img/layers-static.jpg    still of the finished layer block (2D / reduced-motion fallback)
+tools/                   Python helpers (not used by the site at runtime, not deployed)
+docs/                    PR screenshots (not deployed)
 ```
 
 ## Brand rules (from the owner)
@@ -56,6 +63,54 @@ tools/                   Python helpers (not used by the site at runtime)
 - **Mobile bar:** sticky Anrufen / Anfrage buttons on phones.
 - Watch out for class-name collisions in the single CSS file (e.g. `.in` is the reveal state; inputs use `.inp`).
 
+## 3D (branch `3d-experience`)
+
+three.js **0.187.0** comes from jsDelivr through the import map in `<head>` (no build step). The
+map also swaps the un-minified `three.core.js` that `three.module.min.js` imports for
+`three.core.min.js`. Total ~194 KB gzip, no addons. To upgrade, change the version in **all
+three** URLs of the import map.
+
+**3D or 2D?** A tiny script in `<head>` sets `<html data-fx="3d|2d">` before first paint:
+- `2d` (the original site: CSS sketch → photo fade, static layer image) when there's no WebGL2,
+  `prefers-reduced-motion`, or a low-end device (≤2 cores, or ≤4 cores with ≤4 GB RAM where the
+  browser reports it). Note: iOS Safari doesn't report RAM, so iPhones are judged by the frame test.
+- `js/hero3d.js` also times its first ~24 frames. If they're slower than 45 ms each it retries at
+  pixel ratio 1, then gives up. Any error (CDN blocked, texture 404, context lost) calls
+  `AREA.fallback2d()`, which switches the whole page to `2d` (see the console line "3D aus").
+- Test switches: **`?2d`** forces the old version, **`?3d`** skips the low-end check.
+
+**Hero** (`js/hero3d.js`). index.html still computes the scroll progress `p` in `heroUpdate()` and
+calls `hero3d.update(p)`. There's no extra scroll listener and no scroll-jacking. Frames are only
+drawn when `p` changes. In 3D mode `.hero-track` is 400svh (2D: 300svh).
+- Stage boundaries: `STAGE` (sketch until .25, colour until .55, then depth).
+  "Dann gebaut." / CTAs appear at `p>.42` (`hero.classList.toggle('built',…)`).
+- Colour crossfade: `apply()` – `uMix` opacity, `uSat` saturation, `uBlur` soft focus (mip bias).
+  No brush/wipe/mask effects (owner rejected them).
+- Depth: `AMP` (strength), `YAW` / `PITCH` (degrees), `DOLLY` (how much closer), `OVERSCAN` (how much
+  larger than the screen the photo plane is – keep ≥ 1.1 or edges can show when the camera moves).
+  Depth is applied along the start camera's view rays, so the photo looks identical until the camera moves.
+- New hero photo: run `tools/sketch.py photo.jpg hero 2200`, then `tools/depth.py` and `tools/lines.py`,
+  and update `aspect:` (width/height of hero.jpg) in the module loader at the end of index.html.
+
+**Was unter dem Pflaster steckt** (`#unterbau`, `js/layers3d.js`). Loaded only when the section is
+~1 screen away. Sticky stage over a 300svh track (`.ub-track`). Layer i drops in during
+scroll progress `START + i*SPAN`. The labels are the `<ol id="ubList">` in index.html (text is
+edited there). On phones the current sentence is mirrored into `#ubCap` (fixed height = no layout
+shift). Rotation: drag/swipe sideways (`touch-action: pan-y`, so vertical swiping still scrolls),
+arrow keys when focused, pitch clamped to `PITCH_MIN…PITCH_MAX`, no zoom. A focus-only skip link
+"3D-Modell überspringen" jumps to #ablauf. The heights in `LAYERS` are for the picture only.
+**No real thicknesses are shown – TODO: Armin bestätigen** before adding any figures.
+After changing the look, regenerate `img/layers-static.jpg`: in the browser console in 3D mode,
+after the section has loaded, run `AREA.ub.snapshot()` (returns a PNG data URL of the canvas, with
+a transparent background). Put it on #F1EEE6 at 1200×900.
+
+**Gallery tilt** (`js/tilt.js`, loaded after the hero is ready). Mouse on desktop, device
+orientation on Android. iOS is skipped because it would show a permission prompt. Max 4–5°.
+Delete the `import('./js/tilt.js')` line in index.html to switch it off.
+
+**Performance rules**: pixel ratio ≤ 2 (≤ 1.5 on phones). Each canvas renders only while it's
+on screen, the tab is visible and something changed. The canvases are `aria-hidden`; all text is HTML.
+
 ## Adding a project photo
 
 1. `python tools/sketch.py path/to/photo.jpg p11` (creates `img/p11.jpg` and `img/p11-s.jpg`).
@@ -64,7 +119,8 @@ tools/                   Python helpers (not used by the site at runtime)
    (`terrasse`, `pflaster`, `garten`, `zaun`, `erde`).
 3. Project titles describe only what is visible in the photo – don't invent locations or claims.
 
-Hero photo: `python tools/sketch.py photo.jpg hero 2200`.
+Hero photo: `python tools/sketch.py photo.jpg hero 2200` (then see "3D" above for the depth map + lines).
+Depth tool needs torch → Python 3.12 venv in `tools/.venv` (setup at the top of `tools/depth.py`).
 New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`.
 
 ## Still to do
@@ -72,6 +128,7 @@ New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`
 - **Impressum** and **Datenschutzerklärung** pages (legally required in Germany) – footer links are placeholders.
   Need full address, and any tax/trade registration details from the owner.
 - Confirm the Carrd-sourced facts listed above.
+- 3D cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
 - When the owner has a custom domain: add it in Vercel, and add canonical URL + Open Graph tags (og:image = hero photo).
 - Optional: connect the form to a form service if the owner wants inquiries without mailto/WhatsApp.
 - Button text (`#4f5057` on green, 4.27:1) is slightly under WCAG AA for small text – owner was told; darker text is an option if he wants it.
