@@ -10,6 +10,7 @@
 <meta name="description" content="Meisterbetrieb für Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee. Pflaster, Terrassen, Zäune, Rollrasen. Kostenlose Besichtigung, Festpreis-Garantie.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/reviews.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <!-- 3D: three.js from jsDelivr, pinned. The second line swaps the un-minified core that
      three.module.min.js imports for the minified one (~194 KB gzip in total, no addons). -->
@@ -597,11 +598,11 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
     <!-- 05 REVIEWS + FAQ -->
     <section id="faq" style="padding-top:20px">
       <div class="wrap">
-        <div class="rev reveal">
-          <div class="score">5,0</div>
-          <div><div class="stars">★★★★★</div><p><b style="color:var(--ink);font-weight:500">Bestnote aus 8 Google-Bewertungen.</b><br>Lesen Sie, was unsere Kundinnen und Kunden über die Zusammenarbeit sagen.</p></div>
-          <a class="btn ghost" href="https://www.google.com/maps/search/AREA+Galabau+Ravensburg" target="_blank" rel="noopener">Bewertungen lesen <span class="arr">↗</span></a>
+        <div class="sec-head reveal" style="margin-bottom:28px">
+          <div><div class="num"><b>★</b> Bewertungen</div><h2>Was unsere Kunden <em>sagen.</em></h2></div>
+          <p class="lead">Echte Stimmen von Google und von hier – und Ihre Meinung ist willkommen.</p>
         </div>
+        <div id="bewertungen" class="reveal"></div>
 
         <div class="faq" style="margin-top:110px">
           <div class="reveal"><div class="num"><b>05</b> Häufige Fragen</div><h2>Gut zu <em>wissen.</em></h2></div>
@@ -961,5 +962,6 @@ if(is3d()){
   view.addEventListener('pointerdown',()=>{$('.ub-help').textContent='Ziehen zum Drehen'});
 }
 </script>
+<script src="js/reviews.js" defer></script>
 </body>
 </html>

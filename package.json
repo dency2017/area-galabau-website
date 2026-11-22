@@ -1,0 +1,9 @@
+{
+  "name": "area-galabau-website",
+  "private": true,
+  "type": "module",
+  "description": "Static site + three small Vercel functions in /api for reviews (no build step).",
+  "dependencies": {
+    "@vercel/blob": "latest"
+  }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bewertungen verwalten – AREA Galabau</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{--paper:#F1EEE6;--paper-2:#FAF8F3;--ink:#1F211C;--ink-2:#55584F;--line:#D9D4C7;--green:#a6ca4f;--dark:#4f5057}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter Tight",system-ui,sans-serif;background:var(--paper-2);color:var(--ink);font-size:16px;line-height:1.5}
+header{background:var(--dark);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+header b{font-weight:600}
+main{width:min(860px,100% - 32px);margin:28px auto 80px}
+h2{font-weight:400;font-size:24px;margin:28px 0 12px;display:flex;gap:10px;align-items:center}
+h2 span{font-size:13px;background:var(--green);color:var(--dark);border-radius:999px;padding:2px 10px;font-weight:600}
+.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:inset 0 0 0 1px var(--line)}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.stars{color:var(--green);letter-spacing:1px}
+.meta{color:var(--ink-2);font-size:14px}
+.text{margin:10px 0;white-space:pre-wrap}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:10px 16px;font-weight:600}
+.ok{background:var(--green);color:var(--dark)}
+.no{background:#f3e3df;color:#8a2f1d}
+.plain{background:var(--paper);color:var(--ink)}
+textarea,input{font:inherit;width:100%;border:0;border-radius:12px;padding:12px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
+textarea{min-height:70px;margin-top:8px}
+.login{background:#fff;border-radius:20px;padding:24px;max-width:420px;margin:40px auto;box-shadow:inset 0 0 0 1px var(--line)}
+.login p{color:var(--ink-2);font-size:14px;margin:6px 0 14px}
+.msg{font-size:14px;color:#8a2f1d;margin-top:10px;min-height:1.2em}
+.empty{color:var(--ink-2)}
+</style>
+</head>
+<body>
+<header><b>AREA Galabau · Bewertungen</b><button class="plain" id="out" hidden>Abmelden</button></header>
+<main>
+  <div class="login" id="login">
+    <h1 style="font-weight:400;font-size:24px">Anmelden</h1>
+    <p>Passwort = der Wert von <code>ADMIN_KEY</code> in Vercel (Projekt → Settings → Environment Variables).</p>
+    <input type="password" id="key" autocomplete="current-password" placeholder="Passwort">
+    <div class="row"><button class="ok" id="go">Anmelden</button></div>
+    <div class="msg" id="lmsg"></div>
+  </div>
+  <div id="app" hidden>
+    <h2>Warten auf Freigabe <span id="np">0</span></h2>
+    <div id="pending"></div>
+    <h2>Veröffentlicht <span id="na">0</span></h2>
+    <div id="approved"></div>
+  </div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let KEY=sessionStorage.getItem('areaAdminKey')||'';
+async function api(method,body){
+  const r=await fetch('/api/admin',{method,headers:{'x-admin-key':KEY,'content-type':'application/json'},body:body?JSON.stringify(body):undefined});
+  const d=await r.json().catch(()=>({}));
+  if(r.status===401)throw new Error('Falsches Passwort.');
+  if(r.status===503)throw new Error('ADMIN_KEY ist in Vercel noch nicht gesetzt.');
+  if(!r.ok)throw new Error('Fehler '+r.status);
+  return d;
+}
+function card(r,approved){
+  return `<div class="card" data-id="${esc(r.id)}">
+    <div class="top"><div><b>${esc(r.name)}</b>${r.place?' · '+esc(r.place):''} <span class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div>
+    <div class="meta">${esc(r.project||'')} ${new Date(r.createdAt).toLocaleString('de-DE')}</div></div>
+    <p class="text">${esc(r.text)}</p>
+    <textarea placeholder="Öffentliche Antwort von AREA Galabau (optional)">${esc(r.reply||'')}</textarea>
+    <div class="row">
+      ${approved?'<button class="plain" data-a="unpublish">Zurückziehen</button>':'<button class="ok" data-a="approve">Freigeben</button>'}
+      <button class="plain" data-a="reply">Antwort speichern</button>
+      <button class="no" data-a="reject">Löschen</button>
+    </div></div>`;
+}
+async function load(){
+  const d=await api('GET');
+  $('#login').hidden=true;$('#app').hidden=false;$('#out').hidden=false;
+  $('#np').textContent=d.pending.length;$('#na').textContent=d.approved.length;
+  $('#pending').innerHTML=d.pending.map(r=>card(r,false)).join('')||'<p class="empty">Keine neuen Bewertungen.</p>';
+  $('#approved').innerHTML=d.approved.map(r=>card(r,true)).join('')||'<p class="empty">Noch nichts veröffentlicht.</p>';
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-a]');if(!b)return;
+  const c=b.closest('.card'),a=b.dataset.a;
+  if(a==='reject'&&!confirm('Diese Bewertung endgültig löschen?'))return;
+  b.disabled=true;
+  try{await api('POST',{action:a,id:c.dataset.id,reply:c.querySelector('textarea').value});await load()}
+  catch(x){alert(x.message);b.disabled=false}
+});
+async function login(){KEY=$('#key').value;$('#lmsg').textContent='';try{await load();sessionStorage.setItem('areaAdminKey',KEY)}catch(x){$('#lmsg').textContent=x.message}}
+$('#go').onclick=login;$('#key').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+$('#out').onclick=()=>{sessionStorage.removeItem('areaAdminKey');location.reload()};
+if(KEY)load().catch(()=>{});
+</script>
+</body>
+</html>

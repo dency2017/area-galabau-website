@@ -127,6 +127,29 @@ strokes fade out as the colour arrives. The track is 420svh. Scroll picks the fr
 coarse-to-fine. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
 hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
 
+## Bewertungen (reviews) – `#bewertungen`, `js/reviews.js`, `css/reviews.css`, `api/`
+
+Shown on index.html and film.html (above the FAQ). Two sources, merged in one swipeable rail:
+- **Google** – `api/google-reviews.js` (Vercel function) calls Places API (New): rating, count and up to
+  5 reviews (Google's limit). Needs env var **`GOOGLE_PLACES_API_KEY`** (owner sets it in Vercel – never
+  put keys in code/chat); optional **`GOOGLE_PLACE_ID`** (otherwise found by text search "AREA Galabau
+  Ravensburg"). CDN-cached 1 h. Google's rules: author name/link on each review + link to Google Maps
+  (`.rv-attr`). Without the key the section still works, just without Google reviews/score.
+- **Website reviews** – `api/reviews.js`: POST saves to the private **Vercel Blob** store
+  `area-galabau-reviews` (`reviews/pending/<id>.json`), GET returns `reviews/approved/`. Spam traps:
+  hidden `website` field, < 4 s → rejected. No IP/e-mail stored. Token: `BLOB_READ_WRITE_TOKEN`
+  (added automatically when the store was connected). Supabase wasn't used: the owner's free plan
+  already has 2 projects (StockPilot).
+- **Approval** – `/admin.html` (noindex, not linked) + `api/admin.js`: approve / withdraw / delete /
+  public reply. Password = env var **`ADMIN_KEY`** (owner sets it; endpoint is off without it).
+- **"Auf Google teilen"** after submitting: copies the text and opens
+  `https://search.google.com/local/writereview?placeid=…`. Google has no API to post reviews for
+  customers – never try to "sync" website reviews to Google (against Google's policy).
+- **§ 5b Abs. 3 UWG**: the "Hinweis zur Echtheit" under the rail must describe what Armin actually does
+  (manual check against real jobs, no filtering of critical reviews). Keep it true; have it checked
+  with the Impressum/Datenschutz. The Datenschutzerklärung must mention the review form + Google data.
+- `package.json` only exists for `@vercel/blob` (functions). Still no build step.
+
 ## Adding a project photo
 
 1. `python tools/sketch.py path/to/photo.jpg p11` (creates `img/p11.jpg` and `img/p11-s.jpg`).
