@@ -118,7 +118,7 @@ Real job photos (Natursteinpflaster im Bogenverband) told as a scroll story righ
 and then colours in. Short cross-fades (the photos are from different angles), slow zoom per photo,
 clickable steps, badge "Schritt x von 4", mobile bar hidden while on screen. Track 480svh (420 phones).
 Captions describe only what's visible – stone type, m², town, duration: **TODO Armin** (asked in ?pruefen,
-item `einblick` + question). **Customer consent to show the house: TODO before it goes live.**
+item `einblick` + question). Owner OK to publish given 2026-11-22 (live).
 
 ## Was unter dem Pflaster steckt
 
