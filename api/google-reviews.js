@@ -60,7 +60,6 @@ export async function GET() {
       reviews: (p.reviews || []).map((v) => ({
         author: v.authorAttribution?.displayName || 'Google-Nutzer',
         authorUri: v.authorAttribution?.uri || '',
-        photo: v.authorAttribution?.photoUri || '',
         rating: v.rating ?? null,
         text: v.text?.text || v.originalText?.text || '',
         when: v.relativePublishTimeDescription || '',

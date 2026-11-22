@@ -11,6 +11,11 @@ Replaces the old Carrd page https://galabau.carrd.co (use it as the content refe
 
 ```
 index.html               the whole site: HTML + CSS + JS (+ the import map / loader for the 3D modules)
+impressum.html           Impressum (yellow .todo = missing info from Armin)
+datenschutz.html         Datenschutzerklärung (same)
+css/fonts.css, fonts/    self-hosted fonts (Latin subset WOFF, made from google/fonts; OFL licences in fonts/)
+css/legal.css            styles of the two legal pages
+img/og.jpg               1200×630 link-preview image (crop of hero.jpg)
 js/hero3d.js             3D hero (three.js): sketch → colour → depth
 js/layers.js             cross-section "Was unter dem Pflaster steckt" (scroll-built image stack)
 js/tilt.js               gentle tilt of the gallery card (plain CSS transforms, no three.js)
@@ -38,6 +43,8 @@ docs/                    PR screenshots (not deployed)
 - **Logo:** inline SVG (traced from the owner's PDF), white on the grey navbar and footer. Don't redraw it.
 - **Favicon:** only the A square of the logo.
 - **Fonts:** Inter Tight (UI/headings, light weight) + Instrument Serif italic for highlighted words.
+  **Self-hosted** (`css/fonts.css`) – never link Google Fonts again (DSGVO, LG München 2022).
+  No woff2 because brotli wasn't installable here; WOFF ~124 KB total.
 
 ## Contact details (real – keep exactly)
 
@@ -161,10 +168,23 @@ Hero photo: `python tools/sketch.py photo.jpg hero 2200` (then see "3D" above fo
 Depth tool needs torch → Python 3.12 venv in `tools/.venv` (setup at the top of `tools/depth.py`).
 New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`.
 
+## Privacy / legal (DSGVO)
+
+The Datenschutzerklärung promises: no cookies, no tracking, no requests to Google or other third parties
+when a page loads. Keep it true:
+- Google review authors are shown with **initials, not profile photos** (photos would load from Google).
+- **index.html (three.js 3D version) loads three.js from jsDelivr** – a third-party request. If that
+  version goes live, self-host three.js (put the files in `js/vendor/`) or add jsDelivr to the Datenschutz.
+- Adding analytics, maps, YouTube etc. → update datenschutz.html first.
+- Link previews + LocalBusiness JSON-LD are in `<head>` of index.html/film.html with the absolute URL
+  `https://area-galabau-website.vercel.app` – replace it when the custom domain is live, and add the
+  full address. No review stars in the JSON-LD (Google doesn't allow self-serving review markup).
+- impressum.html / datenschutz.html are `noindex` until the yellow gaps are filled. Have them checked
+  (lawyer or a generator such as e-recht24 / IT-Recht Kanzlei) before go-live.
+
 ## Still to do
 
-- **Impressum** and **Datenschutzerklärung** pages (legally required in Germany) – footer links are placeholders.
-  Need full address, and any tax/trade registration details from the owner.
+- **Impressum / Datenschutz**: pages exist; fill the yellow gaps (address, Rechtsform, USt-IdNr., Kammer/Meister) and remove `noindex`.
 - Confirm the Carrd-sourced facts listed above.
 - Cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
 - When the owner has a custom domain: add it in Vercel, and add canonical URL + Open Graph tags (og:image = hero photo).

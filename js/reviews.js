@@ -38,7 +38,7 @@
         <label class="fl" for="rvText">Ihre Bewertung</label>
         <textarea class="inp" id="rvText" maxlength="1500" placeholder="Wie lief die Zusammenarbeit? Was hat Ihnen gefallen?"></textarea>
         <div class="rv-hp" aria-hidden="true"><label>Website <input id="rvWebsite" tabindex="-1" autocomplete="off"></label></div>
-        <label class="rv-consent"><input type="checkbox" id="rvConsent"><span>Ich bin einverstanden, dass meine Bewertung mit dem angegebenen Namen (und Ort) auf dieser Website veröffentlicht wird. Ich kann sie jederzeit per E-Mail an area.galabau@gmail.com löschen lassen.</span></label>
+        <label class="rv-consent"><input type="checkbox" id="rvConsent"><span>Ich bin einverstanden, dass meine Bewertung mit dem angegebenen Namen (und Ort) auf dieser Website veröffentlicht wird. Ich kann sie jederzeit per E-Mail an area.galabau@gmail.com löschen lassen. Mehr in der <a href="datenschutz.html#bewertungen">Datenschutzerklärung</a>.</span></label>
         <div class="rv-msg" id="rvMsg" role="alert"></div>
         <div class="rv-row">
           <button class="btn" type="submit" id="rvSend">Bewertung senden <span class="arr">→</span></button>
@@ -65,7 +65,8 @@
   /* ---------- list ---------- */
   function card(r) {
     const initial = esc((r.author || r.name || '?').trim().charAt(0).toUpperCase());
-    const av = r.photo ? `<img src="${esc(r.photo)}" alt="" referrerpolicy="no-referrer" loading="lazy">` : initial;
+    // initials only: loading Google profile photos would send every visitor's IP to Google (DSGVO)
+    const av = initial;
     const who = r.source === 'google'
       ? (r.authorUri ? `<a href="${esc(r.authorUri)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">${esc(r.author)}</a>` : esc(r.author))
       : esc(r.name) + (r.place ? `<small style="font-weight:400"> · ${esc(r.place)}</small>` : '');

@@ -8,11 +8,98 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#4f5057">
 <meta name="description" content="Meisterbetrieb für Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee. Pflaster, Terrassen, Zäune, Rollrasen. Kostenlose Besichtigung, Festpreis-Garantie.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/reviews.css">
 <link rel="stylesheet" href="css/layers.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!-- Link previews (WhatsApp, Facebook …) + business data for Google. TODO: when the custom domain is live, replace https://area-galabau-website.vercel.app everywhere and add the full address (house number + postcode). -->
+<link rel="canonical" href="https://area-galabau-website.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="AREA Galabau">
+<meta property="og:title" content="AREA Galabau – Garten- & Landschaftsbau Ravensburg & Bodensee">
+<meta property="og:description" content="Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee: Pflaster, Terrassen, Zäune, Rollrasen. Jetzt unverbindlich anfragen.">
+<meta property="og:url" content="https://area-galabau-website.vercel.app/">
+<meta property="og:image" content="https://area-galabau-website.vercel.app/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Neu gestalteter Garten mit Terrasse von AREA Galabau">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "HomeAndConstructionBusiness",
+ "@id": "https://area-galabau-website.vercel.app/#business",
+ "name": "AREA Galabau",
+ "alternateName": "AREA Garten- & Landschaftsbau",
+ "description": "Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee: Pflaster, Terrassen, Zäune, Rollrasen. Jetzt unverbindlich anfragen.",
+ "url": "https://area-galabau-website.vercel.app/",
+ "image": "https://area-galabau-website.vercel.app/img/og.jpg",
+ "logo": "https://area-galabau-website.vercel.app/apple-touch-icon.png",
+ "founder": {
+  "@type": "Person",
+  "name": "Armin Besirevic"
+ },
+ "telephone": "+49 176 20785893",
+ "email": "area.galabau@gmail.com",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Königin-Katharina-Straße",
+  "addressLocality": "Ravensburg",
+  "addressRegion": "Baden-Württemberg",
+  "addressCountry": "DE"
+ },
+ "areaServed": [
+  {
+   "@type": "City",
+   "name": "Ravensburg"
+  },
+  {
+   "@type": "City",
+   "name": "Weingarten"
+  },
+  {
+   "@type": "City",
+   "name": "Friedrichshafen"
+  },
+  {
+   "@type": "Place",
+   "name": "Bodenseeregion"
+  }
+ ],
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+   ],
+   "opens": "08:00",
+   "closes": "18:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "Saturday",
+   "opens": "09:00",
+   "closes": "13:00"
+  }
+ ],
+ "sameAs": [
+  "https://www.google.com/maps/place/?q=place_id:ChIJ_1NOuIyvm0cRctCeBCgjYkU"
+ ],
+ "knowsAbout": [
+  "Pflasterarbeiten",
+  "Terrassenbau",
+  "Zaunbau",
+  "Rollrasen",
+  "Erdarbeiten",
+  "Gartengestaltung"
+ ]
+}
+</script>
+<link rel="preload" href="fonts/inter-tight-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <!-- 3D: three.js from jsDelivr, pinned. The second line swaps the un-minified core that
      three.module.min.js imports for the minified one (~194 KB gzip in total, no addons). -->
 <script type="importmap">
@@ -639,6 +726,7 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
               <button type="button" class="btn ghost" id="copy">Text kopieren</button>
               <a class="btn ghost" href="tel:+4917620785893">Anrufen</a>
             </div>
+            <p style="color:var(--ink-2);font-size:13px;margin-top:14px">Ihre Angaben werden auf dieser Website nicht gespeichert – sie erreichen uns erst, wenn Sie sie selbst per E-Mail oder WhatsApp senden. <a href="datenschutz.html#kontakt">Datenschutz</a></p>
           </div>
 
           <div class="err" id="err" role="alert"></div>
@@ -666,7 +754,7 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
         </div>
         <div class="foot">
           <span>© <span id="yr"></span> AREA Galabau · Garten- & Landschaftsbau · Ravensburg</span>
-          <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span>
+          <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span>
         </div>
       </div>
     </footer>
