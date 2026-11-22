@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- TODO: replace the domain when the custom domain is live; add impressum/datenschutz once they're complete (noindex removed) -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://area-galabau-website.vercel.app/</loc><lastmod>2026-11-22</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://area-galabau-website.vercel.app/</loc>
+    <lastmod>2026-11-22</lastmod>
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p7.webp</image:loc></image:image><!-- Terrasse mit Blockstufen-Sockel -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p10.webp</image:loc></image:image><!-- Hofpflaster am Bauernhaus -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/hero.webp</image:loc></image:image><!-- Sichtschutzzaun, Hochbeete &amp; Terrasse -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p1.webp</image:loc></image:image><!-- Großformat-Terrasse mit Stufen -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p5.webp</image:loc></image:image><!-- Trittplatten im Kiesweg -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p2.webp</image:loc></image:image><!-- Naturstein-Blockstufen -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p3.webp</image:loc></image:image><!-- Rasen, Terrasse &amp; Kiesstreifen -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p8.webp</image:loc></image:image><!-- Betonpflaster mit Sichtbetonstelen -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p6.webp</image:loc></image:image><!-- Rollrasen &amp; Terrassenzugang -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p4.webp</image:loc></image:image><!-- Rasenkante mit Kiesbeet -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/p9.webp</image:loc></image:image><!-- Unterbau &amp; Natursteinmauer -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/story/1-d.webp</image:loc></image:image><!-- Natursteinpflaster liegt bereit, Schnüre gespannt -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/story/2-d.webp</image:loc></image:image><!-- Erste Bögen aus Natursteinpflaster an der Hauswand -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/story/3-d.webp</image:loc></image:image><!-- Natursteinpflaster im Bogenverband wird gesetzt -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/story/4-d.webp</image:loc></image:image><!-- Fertig verfugtes Natursteinpflaster im Bogenverband -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/ba-after.webp</image:loc></image:image><!-- Hoffläche nach dem Pflastern -->
+    <image:image><image:loc>https://area-galabau-website.vercel.app/img/ba-before.webp</image:loc></image:image><!-- Hoffläche vor dem Pflastern, mit verdichtetem Schotterunterbau -->
+  </url>
 </urlset>

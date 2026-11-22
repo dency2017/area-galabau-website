@@ -18,20 +18,26 @@
   // layer order: 1, 2-sketch, 2, 3, 4
   const files = ['1', '2-s', '2', '3', '4'];
   const imgs = {};
+  // alt texts: describe only what is visible (also used by Google image search)
+  const ALT = {
+    '1': 'Baustelle vor einem Wohnhaus: Natursteinpflaster liegt in Reihen bereit, Schnüre sind gespannt',
+    '2-s': '',
+    '2': 'Erste Bögen aus Natursteinpflaster entlang der Hauswand',
+    '3': 'Nahaufnahme: Natursteinpflaster im Bogenverband wird Stein für Stein gesetzt',
+    '4': 'Fertig verfugtes Natursteinpflaster im Bogenverband',
+  };
   files.forEach((f) => {
     const im = new Image();
-    im.alt = '';
+    im.alt = ALT[f];
     im.decoding = 'async';
-    im.dataset.src = `img/story/${f}-${size}.webp`;
+    im.loading = 'lazy';                      // native lazy loading (search engines understand it)
+    im.width = size === 'd' ? 1050 : 675;     // 3:4 – reserves space, no layout shift
+    im.height = size === 'd' ? 1400 : 900;
+    im.src = `img/story/${f}-${size}.webp`;
     view.appendChild(im);
     imgs[f] = im;
   });
   view.appendChild(badge);
-  new IntersectionObserver((en, ob) => {
-    if (!en[0].isIntersecting) return;
-    ob.disconnect();
-    files.forEach((f) => (imgs[f].src = imgs[f].dataset.src));
-  }, { rootMargin: '150% 0px' }).observe(trk);
 
   let lastL = -2, raf = 0, pick = -1;
   const zoom = (im, t) => { im.style.transform = `scale(${(1.08 - 0.08 * sm(cl(t))).toFixed(4)})`; };
