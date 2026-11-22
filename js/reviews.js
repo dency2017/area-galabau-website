@@ -104,6 +104,12 @@
       $('#rvScore').textContent = google.rating.toFixed(1).replace('.', ','); $('#rvScore').hidden = false;
       $('#rvSummary').innerHTML = `<b>${esc(google.rating.toFixed(1).replace('.', ','))} von 5 aus ${google.count} Google-Bewertungen.</b><br>Dazu Bewertungen, die direkt hier abgegeben wurden.`;
       root.querySelector('.rv-meta .rv-stars').outerHTML = stars(google.rating);
+      // keep the rating in the hero strip and the Über uns figure in step with Google
+      const live = google.rating.toFixed(1).replace('.', ',');
+      document.querySelectorAll('[data-g-rating]').forEach((el) => {
+        if (el.dataset.count) el.dataset.count = google.rating.toFixed(1);
+        el.textContent = live;
+      });
       $('#rvAttr').innerHTML = gl.length ? `Google-Bewertungen: Daten von Google Maps · <a href="${esc(google.mapsUri)}" target="_blank" rel="noopener" style="color:inherit">alle Bewertungen auf Google Maps ansehen</a>` : '';
     }
     // newest website reviews first, Google's (most relevant) after

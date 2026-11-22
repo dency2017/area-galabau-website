@@ -56,7 +56,9 @@ docs/                    PR screenshots (not deployed)
 - Königin-Katharina-Straße, Ravensburg (house number + postcode **still missing** – ask owner)
 - area.galabau@gmail.com
 - 0176 20785893 → `tel:+4917620785893`, WhatsApp `https://wa.me/4917620785893`
-- Opening hours, "Meisterbetrieb seit 2012", "300+ Projekte", "5,0 / 8 Google-Bewertungen" come from the Carrd page – **not yet confirmed** by the owner.
+- Opening hours, "Meisterbetrieb seit 2012", "300+ Projekte", "Festpreis-Garantie", "24 h", "kostenlose Besichtigung" come from the Carrd page – **not yet confirmed** by the owner.
+  Safe wording for each is in the doc "AREA Galabau – text drafts for Armin" (https://claude.ai/artifact/XgzaGcunMtg2BNwFQdDx5b), plus the Über uns drafts and his open questions.
+- The Google rating in the hero strip and the Über uns figure (`[data-g-rating]`) is updated live by js/reviews.js; "5,0" in the HTML is only the fallback.
 
 ## Key features (all in index.html)
 
