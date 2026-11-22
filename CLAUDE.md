@@ -111,6 +111,19 @@ Delete the `import('./js/tilt.js')` line in index.html to switch it off.
 **Performance rules**: pixel ratio ≤ 2 (≤ 1.5 on phones). Each canvas renders only while it's
 on screen, the tab is visible and something changed. The canvases are `aria-hidden`; all text is HTML.
 
+## Film hero test (`film.html`, branch `3d-experience`)
+
+Alternative to the three.js hero, made because the owner found the live 3D look low quality.
+`film.html` is the normal 2D site (main's index.html) with one change: the hero is a **scroll-scrubbed
+film** (Apple-product-page technique). 64 pre-rendered frames in `img/film/d/` (4:3, desktop) and
+`img/film/m/` (3:4, phones, picked when the screen is portrait), made by `tools/film.py` **only from
+the real photo, its sketch and its depth map** – the sketch turns into colour while the camera glides
+into the garden. Nothing is invented (an AI video test with Veo 3.1 replaced the garden with a
+different one mid-clip – rejected; don't use generative video for real project photos).
+Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
+coarse-to-fine. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
+hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
+
 ## Adding a project photo
 
 1. `python tools/sketch.py path/to/photo.jpg p11` (creates `img/p11.jpg` and `img/p11-s.jpg`).
