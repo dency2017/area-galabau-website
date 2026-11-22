@@ -210,9 +210,10 @@
     box.id = 'rvw';
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-label', 'Prüfmodus');
-    box.innerHTML = `<div class="rvw-bar"><b>Prüfmodus<small id="rvwCount"></small></b><button id="rvwList">Liste</button><button id="rvwMin" aria-label="Einklappen">–</button></div><div class="rvw-body" id="rvwBody"></div>`;
+    box.innerHTML = `<div class="rvw-bar"><b>Prüfmodus<small id="rvwCount"></small></b><button id="rvwHelp" aria-label="Anleitung zeigen">?</button><button id="rvwList">Liste</button><button id="rvwMin" aria-label="Einklappen">–</button></div><div class="rvw-body" id="rvwBody"></div>`;
     document.body.appendChild(box);
     $('#rvwMin').onclick = () => { box.classList.toggle('min'); $('#rvwMin').textContent = box.classList.contains('min') ? '+' : '–'; };
+    $('#rvwHelp').onclick = intro;
     $('#rvwList').onclick = () => { box.classList.remove('min'); $('#rvwMin').textContent = '–'; list(); };
     // tapping a yellow text opens its item (and doesn't follow links / toggle FAQ)
     document.addEventListener('click', (e) => {
@@ -368,6 +369,7 @@
   }
 
   function intro() {
+    if (document.getElementById('rvwIntro')) return;
     const d = document.createElement('div');
     d.id = 'rvwIntro';
     d.innerHTML = `<div role="dialog" aria-modal="true" aria-labelledby="rvwIh"><h2 id="rvwIh">Hallo Armin!</h2>
@@ -377,8 +379,10 @@
       <div class="rvw-row"><button class="rvw-btn" id="rvwGo">Los geht's</button></div></div>`;
     document.body.appendChild(d);
     $('#rvwGo').onclick = () => { d.remove(); S.intro = true; save(); };
+    d.addEventListener('click', (e) => { if (e.target === d) $('#rvwGo').click(); });
   }
 
-  if (document.readyState === 'complete') init();
-  else addEventListener('load', init);
+  // start as soon as the page structure is there – don't wait for all photos / film frames
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', init);
+  else init();
 })();

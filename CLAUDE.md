@@ -79,7 +79,7 @@ docs/                    PR screenshots (not deployed)
 
 ## Review link for the owner (`/?pruefen`, `js/review.js`, `api/feedback.js`)
 
-Send Armin `https://<site>/?pruefen`. Every text that needs his OK is highlighted yellow (green once decided).
+Send Armin `https://<site>/?pruefen` (also accepted: ?prüfen, ?prufen, ?pruefung, ?prufung, ?armin). Starts at DOMContentLoaded; the welcome shows once per device, "?" in the panel reopens it. Every text that needs his OK is highlighted yellow (green once decided).
 Tapping one opens a panel: keep / safe wording / draft A·B / "Selbst ändern" (textarea, live preview on the page),
 plus the open questions (Impressum data, towns, layer thicknesses …). "Antworten senden" → `api/feedback.js`
 stores `feedback/<id>.json` in the Blob store; they appear on `/admin.html` ("Antworten aus dem Prüflink",
