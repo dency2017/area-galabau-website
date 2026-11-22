@@ -12,7 +12,7 @@ Replaces the old Carrd page https://galabau.carrd.co (use it as the content refe
 ```
 index.html               the whole site: HTML + CSS + JS (+ the import map / loader for the 3D modules)
 js/hero3d.js             3D hero (three.js): sketch → colour → depth
-js/layers3d.js           3D cross-section "Was unter dem Pflaster steckt"
+js/layers.js             cross-section "Was unter dem Pflaster steckt" (scroll-built image stack)
 js/tilt.js               gentle tilt of the gallery card (plain CSS transforms, no three.js)
 favicon.svg              the "A" square from the logo (white on #4f5057)
 apple-touch-icon.png     same, 180px
@@ -22,7 +22,7 @@ img/ba-before.jpg        before/after slider pair, aligned with tools/align_befo
 img/ba-after.jpg
 img/hero-depth.png       depth map of hero.jpg (white = near), made with tools/depth.py
 img/hero-lines.json      pencil line work for the 3D hero, made with tools/lines.py
-img/layers-static.jpg    still of the finished layer block (2D / reduced-motion fallback)
+img/layers/              the five cross-section stages (tools/align_layers.py)
 tools/                   Python helpers (not used by the site at runtime, not deployed)
 docs/                    PR screenshots (not deployed)
 ```
@@ -92,17 +92,15 @@ drawn when `p` changes. In 3D mode `.hero-track` is 400svh (2D: 300svh).
 - New hero photo: run `tools/sketch.py photo.jpg hero 2200`, then `tools/depth.py` and `tools/lines.py`,
   and update `aspect:` (width/height of hero.jpg) in the module loader at the end of index.html.
 
-**Was unter dem Pflaster steckt** (`#unterbau`, `js/layers3d.js`). Loaded only when the section is
-~1 screen away. Sticky stage over a 300svh track (`.ub-track`). Layer i drops in during
-scroll progress `START + i*SPAN`. The labels are the `<ol id="ubList">` in index.html (text is
-edited there). On phones the current sentence is mirrored into `#ubCap` (fixed height = no layout
-shift). Rotation: drag/swipe sideways (`touch-action: pan-y`, so vertical swiping still scrolls),
-arrow keys when focused, pitch clamped to `PITCH_MIN…PITCH_MAX`, no zoom. A focus-only skip link
-"3D-Modell überspringen" jumps to #ablauf. The heights in `LAYERS` are for the picture only.
+**Was unter dem Pflaster steckt** (`#unterbau`, `js/layers.js`, `css/layers.css`) – on index.html and
+film.html. Replaced the old three.js block (owner: "visually plain"). Five photoreal renders of a cut-open
+block (`img/layers/1…5-{d,m}.webp`: Erdreich, Schotter, Splittbett, Pflaster, Fugen), made with OpenArt
+(Kling Image 4.0; each stage made from its neighbour so heights match), aligned with
+`tools/align_layers.py`. Sticky stage over a 300svh track; layer i fades/settles in during
+`START + i*SPAN`, the "camera" slowly moves in. No WebGL. Labelled "Illustration" (it shows the method,
+not a specific job). Labels = `<ol id="ubList">`; on phones the current sentence goes to `#ubCap`, and
+the mobile bar hides while the section is on screen (`inUb` in `chrome()`).
 **No real thicknesses are shown – TODO: Armin bestätigen** before adding any figures.
-After changing the look, regenerate `img/layers-static.jpg`: in the browser console in 3D mode,
-after the section has loaded, run `AREA.ub.snapshot()` (returns a PNG data URL of the canvas, with
-a transparent background). Put it on #F1EEE6 at 1200×900.
 
 **Gallery tilt** (`js/tilt.js`, loaded after the hero is ready). Mouse on desktop, device
 orientation on Android. iOS is skipped because it would show a permission prompt. Max 4–5°.
@@ -167,7 +165,7 @@ New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`
 - **Impressum** and **Datenschutzerklärung** pages (legally required in Germany) – footer links are placeholders.
   Need full address, and any tax/trade registration details from the owner.
 - Confirm the Carrd-sourced facts listed above.
-- 3D cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
+- Cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
 - When the owner has a custom domain: add it in Vercel, and add canonical URL + Open Graph tags (og:image = hero photo).
 - Optional: connect the form to a form service if the owner wants inquiries without mailto/WhatsApp.
 - Button text (`#4f5057` on green, 4.27:1) is slightly under WCAG AA for small text – owner was told; darker text is an option if he wants it.

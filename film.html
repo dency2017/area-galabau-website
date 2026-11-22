@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/reviews.css">
+<link rel="stylesheet" href="css/layers.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -457,6 +458,34 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
       </div>
     </section>
 
+    <!-- 02b UNDER THE PAVING: cross-section that builds itself while scrolling (js/layers.js, css/layers.css) -->
+    <section id="unterbau" aria-labelledby="ubH">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="num"><b>02</b> Unterbau</div><h2 id="ubH">Was unter dem <em>Pflaster</em> steckt.</h2></div>
+          <p class="lead">Eine Pflasterfläche ist nur so gut wie das, was darunter liegt. So ist sie aufgebaut – Schicht für Schicht.</p>
+        </div>
+      </div>
+      <div class="ub-track" id="ubTrack">
+        <div class="ub-stage">
+          <a class="ub-skip" href="#ablauf">Querschnitt überspringen</a>
+          <div class="wrap ub-grid">
+            <!-- TODO: Armin bestätigen – Schichtstärken (cm) bewusst weggelassen; erst nach Freigabe ergänzen. -->
+            <ol class="ub-list" id="ubList">
+              <li style="--c:#6f5743"><b>Erdreich</b><span>Der gewachsene Boden wird ausgehoben, planiert und verdichtet – er trägt alles, was darauf folgt.</span></li>
+              <li style="--c:#8f8c86"><b>Frostschutzschicht / Schotter</b><span>Verdichteter Schotter verteilt die Last und leitet Wasser ab, damit Frost die Fläche nicht anhebt.</span></li>
+              <li style="--c:#b9b4a9"><b>Splittbett</b><span>Ein ebenes Bett aus Splitt, in das die Steine gesetzt werden – es gleicht kleine Höhenunterschiede aus.</span></li>
+              <li style="--c:#c4c4c1"><b>Pflastersteine</b><span>Die Steine werden im Verband und mit leichtem Gefälle verlegt, damit Regenwasser abläuft.</span></li>
+              <li style="--c:#d3c8ad"><b>Fugen</b><span>Die Fugen werden verfüllt und die Fläche abgerüttelt – so verkeilen sich die Steine und nichts wackelt.</span></li>
+            </ol>
+            <p class="ub-cap" id="ubCap" aria-hidden="true"></p>
+            <div class="ub-view" id="ubView" role="img" aria-label="Querschnitt einer Pflasterfläche: Erdreich, Frostschutzschicht aus Schotter, Splittbett, Pflastersteine und verfüllte Fugen">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 03 PROCESS -->
     <section id="ablauf" class="dark">
       <div class="wrap">
@@ -709,8 +738,9 @@ function chrome(){
   const y=scrollY;
   hdr.classList.toggle('solid',y>track.offsetHeight-innerHeight*1.2);
   hdr.classList.toggle('hide',y>lastY&&y>innerHeight*2&&!document.body.classList.contains('menu-open'));
-  const k=$('#kontakt').getBoundingClientRect();
-  mbar.classList.toggle('show',y>track.offsetHeight-innerHeight*1.2&&!(k.top<innerHeight&&k.bottom>0));
+  const k=$('#kontakt').getBoundingClientRect(), u=$('#unterbau')?.getBoundingClientRect();
+  const inUb=u&&u.top<innerHeight*.6&&u.bottom>innerHeight*.4;
+  mbar.classList.toggle('show',y>track.offsetHeight-innerHeight*1.2&&!(k.top<innerHeight&&k.bottom>0)&&!inUb);
   lastY=y;
 }
 addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{heroUpdate();chrome();ticking=false});ticking=true}},{passive:true});
@@ -856,6 +886,7 @@ form.addEventListener('submit',e=>{e.preventDefault();
   }
   show(si+1);form.scrollIntoView({behavior:'smooth',block:'nearest'})});
 </script>
+<script src="js/layers.js" defer></script>
 <script src="js/reviews.js" defer></script>
 </body>
 </html>
