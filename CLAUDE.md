@@ -10,25 +10,29 @@ Replaces the old Carrd page https://galabau.carrd.co (use it as the content refe
 ## Files
 
 ```
-index.html               the whole site: HTML + CSS + JS (+ the import map / loader for the 3D modules)
+index.html               the whole site: HTML + CSS + JS (film hero, gallery, layers, reviews, form …)
 impressum.html           Impressum (yellow .todo = missing info from Armin)
 datenschutz.html         Datenschutzerklärung (same)
+404.html                 "page not found" (Vercel serves it automatically; absolute paths)
+vercel.json              security headers (CSP …), cache rules, redirect /film.html → /
+robots.txt, sitemap.xml  for Google (domain inside – change with the custom domain)
 css/fonts.css, fonts/    self-hosted fonts (Latin subset WOFF, made from google/fonts; OFL licences in fonts/)
-css/legal.css            styles of the two legal pages
-img/og.jpg               1200×630 link-preview image (crop of hero.jpg)
-js/hero3d.js             3D hero (three.js): sketch → colour → depth
-js/layers.js             cross-section "Was unter dem Pflaster steckt" (scroll-built image stack)
-js/tilt.js               gentle tilt of the gallery card (plain CSS transforms, no three.js)
+css/legal.css            styles of the legal pages + 404
+css/layers.css, js/layers.js   cross-section "Was unter dem Pflaster steckt"
+css/reviews.css, js/reviews.js reviews section; api/ = Vercel functions for it
 favicon.svg              the "A" square from the logo (white on #4f5057)
 apple-touch-icon.png     same, 180px
-img/<name>.jpg           real photos
-img/<name>-s.jpg         pencil-sketch twin of each photo (made with tools/sketch.py)
-img/ba-before.jpg        before/after slider pair, aligned with tools/align_before_after.py
-img/ba-after.jpg
-img/hero-depth.png       depth map of hero.jpg (white = near), made with tools/depth.py
-img/hero-lines.json      pencil line work for the 3D hero, made with tools/lines.py
+img/<name>.jpg           masters of the real photos (not loaded by the site, except og.jpg)
+img/<name>.webp          lightbox size (1600)       ┐ made from the .jpg masters
+img/<name>-c.webp        gallery card size (900)    │ with tools/webp.py
+img/<name>-s.webp        pencil-sketch card (900)   ┘ (sketch master: <name>-s.jpg from tools/sketch.py)
+img/ba-before/after(.webp|-m.webp)  before/after slider (aligned with tools/align_before_after.py)
+img/film/d|m/            hero film frames (tools/film.py)
+img/hero-lines.json      pencil strokes of the hero drawing phase (tools/lines.py)
+img/hero-depth.png       depth map, only used by tools/film.py
 img/layers/              the five cross-section stages (tools/align_layers.py)
-tools/                   Python helpers (not used by the site at runtime, not deployed)
+img/og.jpg               1200×630 link-preview image (crop of hero.jpg)
+tools/                   Python helpers (not deployed)
 docs/                    PR screenshots (not deployed)
 ```
 
@@ -56,9 +60,7 @@ docs/                    PR screenshots (not deployed)
 
 ## Key features (all in index.html)
 
-- **Hero (sketch → photo):** `.hero-track` is 300svh tall with a sticky `.hero`. As you scroll, the real photo fades in over the
-  sketch – opacity + saturation + slight scale, driven directly by scroll position in `heroUpdate()`.
-  The owner wants it **subtle and gradual** (based on a reference video). Do NOT use brush/wipe/mask effects – that was tried and rejected.
+- **Hero:** scroll-scrubbed film with a pencil-drawing phase – see "Hero film" below.
 - **Stacked sections:** `.stack` has `margin-top:-100svh` so it slides up over the hero like a card.
 - **Before/after slider** (`#ba`): real photos, no sketch. Pointer drag anywhere on the image; hidden range input for keyboard.
 - **Gallery** (`#grid.rail`): horizontal scroll-snap carousel. Phone: one card at ~84vw, swipe. Desktop: 3 cards, arrows + mouse drag.
@@ -70,37 +72,25 @@ docs/                    PR screenshots (not deployed)
 - **Mobile bar:** sticky Anrufen / Anfrage buttons on phones.
 - Watch out for class-name collisions in the single CSS file (e.g. `.in` is the reveal state; inputs use `.inp`).
 
-## 3D (branch `3d-experience`)
+## Hero film
 
-three.js **0.187.0** comes from jsDelivr through the import map in `<head>` (no build step). The
-map also swaps the un-minified `three.core.js` that `three.module.min.js` imports for
-`three.core.min.js`. Total ~194 KB gzip, no addons. To upgrade, change the version in **all
-three** URLs of the import map.
+The owner chose this over a live three.js 3D hero (he found that "low quality"; removed). The hero is a **scroll-scrubbed
+film** (Apple-product-page technique). 64 pre-rendered frames in `img/film/d/` (4:3, desktop) and
+`img/film/m/` (3:4, phones, picked when the screen is portrait), made by `tools/film.py` **only from
+the real photo, its sketch and its depth map** – the sketch turns into colour while the camera glides
+into the garden. Nothing is invented (an AI video test with Veo 3.1 replaced the garden with a
+different one mid-clip – rejected; don't use generative video for real project photos).
+Before the film there's a **pencil-drawing phase** (owner asked for it): the outlines from
+`img/hero-lines.json` draw themselves over the faint sketch – on their own for ~2.6 s after load, then
+scroll continues it (`DRAW_END` = .25 of the hero track); the film runs until `FILM_END` (.85), and the
+strokes fade out as the colour arrives. The track is 420svh (320svh on phones, ≤820px). Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
+coarse-to-fine (~4 MB on phones, ~7.5 MB desktop – the heaviest part of the page). The first frame is a `<picture>` so phones
+only fetch `m/000.webp`. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
+hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
 
-**3D or 2D?** A tiny script in `<head>` sets `<html data-fx="3d|2d">` before first paint:
-- `2d` (the original site: CSS sketch → photo fade, static layer image) when there's no WebGL2,
-  `prefers-reduced-motion`, or a low-end device (≤2 cores, or ≤4 cores with ≤4 GB RAM where the
-  browser reports it). Note: iOS Safari doesn't report RAM, so iPhones are judged by the frame test.
-- `js/hero3d.js` also times its first ~24 frames. If they're slower than 45 ms each it retries at
-  pixel ratio 1, then gives up. Any error (CDN blocked, texture 404, context lost) calls
-  `AREA.fallback2d()`, which switches the whole page to `2d` (see the console line "3D aus").
-- Test switches: **`?2d`** forces the old version, **`?3d`** skips the low-end check.
+## Was unter dem Pflaster steckt
 
-**Hero** (`js/hero3d.js`). index.html still computes the scroll progress `p` in `heroUpdate()` and
-calls `hero3d.update(p)`. There's no extra scroll listener and no scroll-jacking. Frames are only
-drawn when `p` changes. In 3D mode `.hero-track` is 400svh (2D: 300svh).
-- Stage boundaries: `STAGE` (sketch until .25, colour until .55, then depth).
-  "Dann gebaut." / CTAs appear at `p>.42` (`hero.classList.toggle('built',…)`).
-- Colour crossfade: `apply()` – `uMix` opacity, `uSat` saturation, `uBlur` soft focus (mip bias).
-  No brush/wipe/mask effects (owner rejected them).
-- Depth: `AMP` (strength), `YAW` / `PITCH` (degrees), `DOLLY` (how much closer), `OVERSCAN` (how much
-  larger than the screen the photo plane is – keep ≥ 1.1 or edges can show when the camera moves).
-  Depth is applied along the start camera's view rays, so the photo looks identical until the camera moves.
-- New hero photo: run `tools/sketch.py photo.jpg hero 2200`, then `tools/depth.py` and `tools/lines.py`,
-  and update `aspect:` (width/height of hero.jpg) in the module loader at the end of index.html.
-
-**Was unter dem Pflaster steckt** (`#unterbau`, `js/layers.js`, `css/layers.css`) – on index.html and
-film.html. Replaced the old three.js block (owner: "visually plain"). Five photoreal renders of a cut-open
+**Was unter dem Pflaster steckt** (`#unterbau`, `js/layers.js`, `css/layers.css`) – Replaced an earlier three.js block (owner: "visually plain"). Five photoreal renders of a cut-open
 block (`img/layers/1…5-{d,m}.webp`: Erdreich, Schotter, Splittbett, Pflaster, Fugen), made with OpenArt
 (Kling Image 4.0; each stage made from its neighbour so heights match), aligned with
 `tools/align_layers.py`. Sticky stage over a 520svh track; step i is shown for
@@ -110,32 +100,10 @@ not a specific job). Labels = `<ol id="ubList">`; on phones the current sentence
 the mobile bar hides while the section is on screen (`inUb` in `chrome()`).
 **No real thicknesses are shown – TODO: Armin bestätigen** before adding any figures.
 
-**Gallery tilt** (`js/tilt.js`, loaded after the hero is ready). Mouse on desktop, device
-orientation on Android. iOS is skipped because it would show a permission prompt. Max 4–5°.
-Delete the `import('./js/tilt.js')` line in index.html to switch it off.
-
-**Performance rules**: pixel ratio ≤ 2 (≤ 1.5 on phones). Each canvas renders only while it's
-on screen, the tab is visible and something changed. The canvases are `aria-hidden`; all text is HTML.
-
-## Film hero test (`film.html`, branch `3d-experience`)
-
-Alternative to the three.js hero, made because the owner found the live 3D look low quality.
-`film.html` is the normal 2D site (main's index.html) with one change: the hero is a **scroll-scrubbed
-film** (Apple-product-page technique). 64 pre-rendered frames in `img/film/d/` (4:3, desktop) and
-`img/film/m/` (3:4, phones, picked when the screen is portrait), made by `tools/film.py` **only from
-the real photo, its sketch and its depth map** – the sketch turns into colour while the camera glides
-into the garden. Nothing is invented (an AI video test with Veo 3.1 replaced the garden with a
-different one mid-clip – rejected; don't use generative video for real project photos).
-Before the film there's a **pencil-drawing phase** (owner asked for it): the outlines from
-`img/hero-lines.json` draw themselves over the faint sketch – on their own for ~2.6 s after load, then
-scroll continues it (`DRAW_END` = .25 of the hero track); the film runs until `FILM_END` (.85), and the
-strokes fade out as the colour arrives. The track is 420svh. Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
-coarse-to-fine. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
-hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
 
 ## Bewertungen (reviews) – `#bewertungen`, `js/reviews.js`, `css/reviews.css`, `api/`
 
-Shown on index.html and film.html (above the FAQ). Two sources, merged in one swipeable rail:
+Above the FAQ. Two sources, merged in one swipeable rail:
 - **Google** – `api/google-reviews.js` (Vercel function) calls Places API (New): rating, count and up to
   5 reviews (Google's limit). Needs env var **`GOOGLE_PLACES_API_KEY`** (owner sets it in Vercel – never
   put keys in code/chat); optional **`GOOGLE_PLACE_ID`** (otherwise found by text search "AREA Galabau
@@ -158,25 +126,32 @@ Shown on index.html and film.html (above the FAQ). Two sources, merged in one sw
 
 ## Adding a project photo
 
-1. `python tools/sketch.py path/to/photo.jpg p11` (creates `img/p11.jpg` and `img/p11-s.jpg`).
+1. `python tools/sketch.py path/to/photo.jpg p11` (creates `img/p11.jpg` and `img/p11-s.jpg`),
+   then `python tools/webp.py p11` (creates the three .webp files the site loads).
 2. In `index.html` add the size printed by the script to `SIZE`, and add an entry to `PROJ`:
    `{t:'Titel des Projekts',c:'pflaster',img:'p11'}` – categories are the keys of `CATS`
    (`terrasse`, `pflaster`, `garten`, `zaun`, `erde`).
 3. Project titles describe only what is visible in the photo – don't invent locations or claims.
 
-Hero photo: `python tools/sketch.py photo.jpg hero 2200` (then see "3D" above for the depth map + lines).
+Hero photo: `python tools/sketch.py photo.jpg hero 2200`, `tools/depth.py`, `tools/lines.py`, `tools/film.py`, `tools/webp.py hero`.
 Depth tool needs torch → Python 3.12 venv in `tools/.venv` (setup at the top of `tools/depth.py`).
-New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`.
+New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`, then `python tools/webp.py ba`.
+
+## Security headers (`vercel.json`)
+
+CSP allows only the site itself (`'unsafe-inline'` is needed for the inline scripts/styles). Anything new
+from another domain (maps, analytics, video, a form service) must be added to the CSP **and** the
+Datenschutz, or it will silently be blocked. On preview links the Vercel toolbar is blocked by the CSP – harmless.
+Cache: img/fonts 7 days (+ stale-while-revalidate), css/js 1 hour. File names aren't hashed, so after
+replacing a photo, give it a new name if visitors must see it immediately.
 
 ## Privacy / legal (DSGVO)
 
 The Datenschutzerklärung promises: no cookies, no tracking, no requests to Google or other third parties
 when a page loads. Keep it true:
 - Google review authors are shown with **initials, not profile photos** (photos would load from Google).
-- **index.html (three.js 3D version) loads three.js from jsDelivr** – a third-party request. If that
-  version goes live, self-host three.js (put the files in `js/vendor/`) or add jsDelivr to the Datenschutz.
 - Adding analytics, maps, YouTube etc. → update datenschutz.html first.
-- Link previews + LocalBusiness JSON-LD are in `<head>` of index.html/film.html with the absolute URL
+- Link previews + LocalBusiness JSON-LD are in `<head>` of index.html with the absolute URL
   `https://area-galabau-website.vercel.app` – replace it when the custom domain is live, and add the
   full address. No review stars in the JSON-LD (Google doesn't allow self-serving review markup).
 - impressum.html / datenschutz.html are `noindex` until the yellow gaps are filled. Have them checked
@@ -187,6 +162,6 @@ when a page loads. Keep it true:
 - **Impressum / Datenschutz**: pages exist; fill the yellow gaps (address, Rechtsform, USt-IdNr., Kammer/Meister) and remove `noindex`.
 - Confirm the Carrd-sourced facts listed above.
 - Cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
-- When the owner has a custom domain: add it in Vercel, and add canonical URL + Open Graph tags (og:image = hero photo).
+- When the owner has a custom domain: add it in Vercel and replace `https://area-galabau-website.vercel.app` in index.html (canonical, OG, JSON-LD), robots.txt and sitemap.xml.
 - Optional: connect the form to a form service if the owner wants inquiries without mailto/WhatsApp.
 - Button text (`#4f5057` on green, 4.27:1) is slightly under WCAG AA for small text – owner was told; darker text is an option if he wants it.
