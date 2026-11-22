@@ -174,7 +174,8 @@ New before/after pair: `python tools/align_before_after.py before.jpg after.jpg`
 CSP allows only the site itself (`'unsafe-inline'` is needed for the inline scripts/styles). Anything new
 from another domain (maps, analytics, video, a form service) must be added to the CSP **and** the
 Datenschutz, or it will silently be blocked. On preview links the Vercel toolbar is blocked by the CSP – harmless.
-Cache: img/fonts 7 days (+ stale-while-revalidate), css/js 1 hour. File names aren't hashed, so after
+Cache: img/fonts 7 days (+ stale-while-revalidate), css/js 1 hour – so index.html links them with `?v=…`:
+**change the `?v=` value (all of them, e.g. `?v=2611b` → `?v=2611c`) whenever you edit a css/js file.** File names aren't hashed, so after
 replacing a photo, give it a new name if visitors must see it immediately.
 
 ## Privacy / legal (DSGVO)
