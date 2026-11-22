@@ -77,6 +77,18 @@ docs/                    PR screenshots (not deployed)
   anything in it has focus; process steps are `h3`. Checked with a Playwright script (labels, names, contrast, tab order).
 - Watch out for class-name collisions in the single CSS file (e.g. `.in` is the reveal state; inputs use `.inp`).
 
+## Review link for the owner (`/?pruefen`, `js/review.js`, `api/feedback.js`)
+
+Send Armin `https://<site>/?pruefen`. Every text that needs his OK is highlighted yellow (green once decided).
+Tapping one opens a panel: keep / safe wording / draft A·B / "Selbst ändern" (textarea, live preview on the page),
+plus the open questions (Impressum data, towns, layer thicknesses …). "Antworten senden" → `api/feedback.js`
+stores `feedback/<id>.json` in the Blob store; they appear on `/admin.html` ("Antworten aus dem Prüflink",
+with "Als Text kopieren"). Answers are also kept in his browser (localStorage) so he can continue later.
+Normal visitors never load review.js (index.html only injects it when `?pruefen` is in the URL).
+What is asked = `ITEMS` / `QUESTIONS` at the top of review.js; a spot = `[css selector, exact text on the page]` –
+**if you change a text on the page, update its spot too**, or it won't be highlighted (console warns
+"[pruefen] Text nicht gefunden"). After he answers, put his choices into index.html for real and remove the items.
+
 ## Hero film
 
 The owner chose this over a live three.js 3D hero (he found that "low quality"; removed). The hero is a **scroll-scrubbed

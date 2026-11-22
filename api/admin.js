@@ -3,7 +3,8 @@
 // Environment Variables; pick a long password). Without ADMIN_KEY this endpoint is disabled.
 //
 //   GET  (header x-admin-key)                       → { pending: [...], approved: [...] }
-//   POST (header x-admin-key) { action, id, reply? } → action = approve | reject | unpublish | reply
+//   POST (header x-admin-key) { action, id, reply? } → action = approve | reject | unpublish | reply | delfeedback
+//   GET also returns feedback[] = answers sent from the review link (index.html?pruefen)
 
 import { put, list, del } from '@vercel/blob';
 import { timingSafeEqual } from 'node:crypto';
@@ -33,8 +34,8 @@ async function find(prefix, id) {
 export async function GET(request) {
   if (!process.env.ADMIN_KEY) return json({ error: 'not_configured' }, 503);
   if (!authorised(request)) return json({ error: 'unauthorised' }, 401);
-  const [pending, approved] = await Promise.all([readAll('reviews/pending/'), readAll('reviews/approved/')]);
-  return json({ pending, approved });
+  const [pending, approved, feedback] = await Promise.all([readAll('reviews/pending/'), readAll('reviews/approved/'), readAll('feedback/')]);
+  return json({ pending, approved, feedback });
 }
 
 export async function POST(request) {
@@ -44,6 +45,13 @@ export async function POST(request) {
   try { d = await request.json(); } catch { return json({ error: 'bad_json' }, 400); }
   const id = safeId(d.id);
   if (!id) return json({ error: 'bad_id' }, 400);
+
+  // answers from the owner's review link (api/feedback.js)
+  if (d.action === 'delfeedback') {
+    const b = await find('feedback/', id);
+    if (b) await del(b.url);
+    return json({ ok: true });
+  }
 
   const all = [...(await readAll('reviews/pending/')), ...(await readAll('reviews/approved/'))];
   const r = all.find((x) => x.id === id);
