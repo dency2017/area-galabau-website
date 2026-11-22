@@ -1,7 +1,7 @@
 /* "Was unter dem Pflaster steckt" – scroll-built cross-section (js/layers.js).
    Five aligned renders in img/layers/ (1 = Erdreich … 5 = Fugen), stacked and faded in by scroll. */
 #unterbau{padding-bottom:40px}
-.ub-track{height:300svh;position:relative}
+.ub-track{height:520svh;position:relative}
 .ub-stage{position:sticky;top:0;height:100svh;display:flex;align-items:center;padding-top:68px}
 .ub-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;align-items:center}
 .ub-view{position:relative;aspect-ratio:2336/1443;border-radius:var(--r);background:#e8dcca;overflow:hidden}
@@ -12,6 +12,10 @@
 .ub-list{list-style:none;display:grid}
 .ub-list li{position:relative;padding:15px 0 15px 44px;border-top:1px solid var(--line);transition:opacity .5s;opacity:.32}
 .ub-list li.on{opacity:1}
+.ub-list li{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ub-list li:hover{opacity:.75}.ub-list li.on:hover{opacity:1}
+.ub-list li:hover b{color:var(--ink)}
+.ub-list li:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:6px}
 .ub-list li:last-child{border-bottom:1px solid var(--line)}
 .ub-list li::before{content:"";position:absolute;left:2px;top:17px;width:22px;height:22px;border-radius:6px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);transition:box-shadow .4s}
 .ub-list li.cur::before{box-shadow:0 0 0 3px var(--paper-2),0 0 0 5px var(--green)}

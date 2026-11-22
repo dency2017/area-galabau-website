@@ -96,8 +96,9 @@ drawn when `p` changes. In 3D mode `.hero-track` is 400svh (2D: 300svh).
 film.html. Replaced the old three.js block (owner: "visually plain"). Five photoreal renders of a cut-open
 block (`img/layers/1…5-{d,m}.webp`: Erdreich, Schotter, Splittbett, Pflaster, Fugen), made with OpenArt
 (Kling Image 4.0; each stage made from its neighbour so heights match), aligned with
-`tools/align_layers.py`. Sticky stage over a 300svh track; layer i fades/settles in during
-`START + i*SPAN`, the "camera" slowly moves in. No WebGL. Labelled "Illustration" (it shows the method,
+`tools/align_layers.py`. Sticky stage over a 520svh track; step i is shown for
+`START + i*SPAN` (short fade at each change, then it holds), the "camera" slowly moves in. Steps in the
+list are clickable (scrolls to the middle of that step; keyboard: Enter). No WebGL. Labelled "Illustration" (it shows the method,
 not a specific job). Labels = `<ol id="ubList">`; on phones the current sentence goes to `#ubCap`, and
 the mobile bar hides while the section is on screen (`inUb` in `chrome()`).
 **No real thicknesses are shown – TODO: Armin bestätigen** before adding any figures.
