@@ -18,6 +18,8 @@ vercel.json              security headers (CSP …), cache rules, redirect /film
 robots.txt, sitemap.xml  for Google (domain inside – change with the custom domain)
 css/fonts.css, fonts/    self-hosted fonts (Latin subset WOFF, made from google/fonts; OFL licences in fonts/)
 css/legal.css            styles of the legal pages + 404
+css/story.css, js/story.js     "Ein Auftrag, Schritt für Schritt" (real job photos, scroll story)
+img/story/               its photos (edited masters .jpg + webp)
 css/layers.css, js/layers.js   cross-section "Was unter dem Pflaster steckt"
 css/reviews.css, js/reviews.js reviews section; api/ = Vercel functions for it
 favicon.svg              the "A" square from the logo (white on #4f5057)
@@ -105,6 +107,18 @@ strokes fade out as the colour arrives. The track is 420svh (320svh on phones, �
 coarse-to-fine. Phones load every 2nd frame (`FILM_STEP`, ~2 MB; `?fullfilm` loads all for comparison), desktop all 64 (~7.5 MB). The first frame is a `<picture>` so phones
 only fetch `m/000.webp`. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
 hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
+
+## Ein Auftrag, Schritt für Schritt (`#einblick`, `js/story.js`, `css/story.css`)
+
+Real job photos (Natursteinpflaster im Bogenverband) told as a scroll story right after the gallery:
+`img/story/1…4` = material & strings / arcs at the house / close-up / finished. Edited only classically
+(exposure, shadows, contrast, white balance, crop – the shoe was cropped out of 4, light sharpening);
+**no AI edits on real job photos** (they're proof of the work; UWG). Masters `img/story/N.jpg`, web
+`N-d.webp` (1400) / `N-m.webp` (900). Step 2 first shows its pencil sketch (`2-s`, from tools/sketch.py)
+and then colours in. Short cross-fades (the photos are from different angles), slow zoom per photo,
+clickable steps, badge "Schritt x von 4", mobile bar hidden while on screen. Track 480svh (420 phones).
+Captions describe only what's visible – stone type, m², town, duration: **TODO Armin** (asked in ?pruefen,
+item `einblick` + question). **Customer consent to show the house: TODO before it goes live.**
 
 ## Was unter dem Pflaster steckt
 

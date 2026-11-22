@@ -10,6 +10,7 @@
 <meta name="description" content="Meisterbetrieb für Garten- und Landschaftsbau in Ravensburg, Friedrichshafen, Weingarten und am Bodensee. Pflaster, Terrassen, Zäune, Rollrasen. Kostenlose Besichtigung, Festpreis-Garantie.">
 <link rel="stylesheet" href="css/reviews.css">
 <link rel="stylesheet" href="css/layers.css">
+<link rel="stylesheet" href="css/story.css">
 <!-- Link previews (WhatsApp, Facebook …) + business data for Google. TODO: when the custom domain is live, replace https://area-galabau-website.vercel.app everywhere and add the full address (house number + postcode). -->
 <link rel="canonical" href="https://area-galabau-website.vercel.app/">
 <meta property="og:type" content="website">
@@ -536,6 +537,37 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
       </div>
     </section>
 
+    <!-- 01b A JOB, STEP BY STEP: real photos as a scroll story (js/story.js, css/story.css) -->
+    <!-- TODO Armin: stone type, area (m²), town, duration → add to the lead / captions (asked in ?pruefen) -->
+    <section id="einblick" aria-labelledby="psH" style="padding-bottom:40px">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="num"><b>01</b> Einblick</div><h2 id="psH">Ein Auftrag, <em>Schritt für Schritt.</em></h2></div>
+          <p class="lead">Natursteinpflaster im Bogenverband – vom Material auf der Baustelle bis zur fertigen Fläche. Echte Fotos aus einem unserer Aufträge.</p>
+        </div>
+      </div>
+      <div class="ps-track" id="psTrack">
+        <div class="ps-stage">
+          <a class="ps-skip" href="#leistungen">Baustellen-Fotos überspringen</a>
+          <div class="wrap ps-grid">
+            <div>
+              <ol class="ps-list" id="psList">
+                <li><b>Material &amp; Schnüre</b><span>Die Natursteine liegen bereit, gespannte Schnüre geben Richtung und Höhe vor.</span></li>
+                <li><b>Bögen setzen</b><span>Am Haus entstehen die ersten Bögen – jeder Stein wird von Hand gesetzt.</span></li>
+                <li><b>Stein für Stein</b><span>Reihe um Reihe wächst der Bogenverband, die Bögen greifen ineinander.</span></li>
+                <li><b>Verfugt &amp; fertig</b><span>Die Fugen sind mit Splitt verfüllt – die Fläche ist fertig.</span></li>
+              </ol>
+              <p class="ps-cap" id="psCap" aria-hidden="true"></p>
+              <p class="ps-note">Tipp: Schritte antippen, um direkt hinzuspringen.</p>
+            </div>
+            <div class="ps-view" id="psView" role="img" aria-label="Baustellen-Fotos eines Natursteinpflasters im Bogenverband in vier Schritten: Material mit gespannten Schnüren, erste Bögen am Haus, Nahaufnahme der Bögen, fertig verfugte Fläche">
+              <span class="ps-badge" id="psBadge">Schritt <b>1</b> von 4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 02 SERVICES -->
     <section id="leistungen" style="padding-top:20px">
       <div class="wrap">
@@ -834,7 +866,8 @@ function chrome(){
   hdr.classList.toggle('solid',y>track.offsetHeight-innerHeight*1.2);
   hdr.classList.toggle('hide',y>lastY&&y>innerHeight*2&&!document.body.classList.contains('menu-open'));
   const k=$('#kontakt').getBoundingClientRect(), u=$('#unterbau')?.getBoundingClientRect();
-  const inUb=u&&u.top<innerHeight*.6&&u.bottom>innerHeight*.4;
+  const ps=$('#einblick')?.getBoundingClientRect();
+  const inUb=(u&&u.top<innerHeight*.6&&u.bottom>innerHeight*.4)||(ps&&ps.top<innerHeight*.6&&ps.bottom>innerHeight*.4);
   mbar.classList.toggle('show',y>track.offsetHeight-innerHeight*1.2&&!(k.top<innerHeight&&k.bottom>0)&&!inUb);
   lastY=y;
 }
@@ -984,7 +1017,8 @@ form.addEventListener('submit',e=>{e.preventDefault();
   show(si+1);form.scrollIntoView({behavior:'smooth',block:'nearest'})});
 </script>
 <script src="js/layers.js" defer></script>
-<script>/* owner review mode: ?pruefen (also ?prüfen, ?prufen, ?pruefung, ?prufung, ?armin) → js/review.js */if(/[?&](pr(ue|ü|u)f(en|ung)|armin)(=|&|$)/.test(decodeURIComponent(location.search).toLowerCase())){const s=document.createElement('script');s.src='js/review.js?v=5';document.head.appendChild(s)}</script>
+<script src="js/story.js" defer></script>
+<script>/* owner review mode: ?pruefen (also ?prüfen, ?prufen, ?pruefung, ?prufung, ?armin) → js/review.js */if(/[?&](pr(ue|ü|u)f(en|ung)|armin)(=|&|$)/.test(decodeURIComponent(location.search).toLowerCase())){const s=document.createElement('script');s.src='js/review.js?v=6';document.head.appendChild(s)}</script>
 <script src="js/reviews.js" defer></script>
 </body>
 </html>

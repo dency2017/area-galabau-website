@@ -59,6 +59,14 @@
         ['#ubList span', 'Die Steine werden im Verband und mit leichtem Gefälle verlegt, damit Regenwasser abläuft.'],
         ['#ubList span', 'Die Fugen werden verfüllt und die Fläche abgerüttelt – so verkeilen sich die Steine und nichts wackelt.']],
       choices: [{ label: 'Stimmt so', t: [null, null, null, null, null] }] },
+    { id: 'einblick', title: '„Ein Auftrag, Schritt für Schritt“', q: 'Stimmen die Texte zu den Baustellen-Fotos? Ist das ein einziger Auftrag? Steinart, Fläche (m²), Ort und Bauzeit bitte unten bei den Fragen – dann ergänzen wir sie.',
+      spots: [
+        ['#einblick .lead', 'Natursteinpflaster im Bogenverband – vom Material auf der Baustelle bis zur fertigen Fläche. Echte Fotos aus einem unserer Aufträge.'],
+        ['#psList span', 'Die Natursteine liegen bereit, gespannte Schnüre geben Richtung und Höhe vor.'],
+        ['#psList span', 'Am Haus entstehen die ersten Bögen – jeder Stein wird von Hand gesetzt.'],
+        ['#psList span', 'Reihe um Reihe wächst der Bogenverband, die Bögen greifen ineinander.'],
+        ['#psList span', 'Die Fugen sind mit Splitt verfüllt – die Fläche ist fertig.']],
+      choices: [{ label: 'Stimmt so', t: [null, null, null, null, null] }] },
     { id: 'echtheit', title: 'Hinweis zur Echtheit (Bewertungen)', q: 'Machst du das wirklich so? Der Hinweis ist gesetzlich vorgeschrieben (§ 5b UWG) und muss stimmen.',
       spots: [['.rv-note', 'Google-Bewertungen werden unverändert direkt von Google geladen; wir haben keinen Einfluss darauf, wer sie schreibt. Bewertungen, die über diese Website abgegeben werden, prüfen wir vor der Veröffentlichung von Hand darauf, ob sie zu einem Auftrag von uns passen. Wir sortieren keine Bewertungen nur deshalb aus, weil sie kritisch sind.']],
       choices: [{ label: 'Stimmt so', t: [null] }] },
@@ -78,6 +86,7 @@
     ['meisterbrief', 'Meisterbrief: in welchem Handwerk? (leer lassen, wenn keiner)', ''],
     ['zeiten', 'Öffnungszeiten – stimmen Mo–Fr 8–18, Sa 9–13? Sonst bitte richtig eintragen', ''],
     ['orte', 'In welchen Orten arbeitest du noch? (jede Ortschaft hilft bei Google)', ''],
+    ['einblick', 'Baustellen-Fotos „Schritt für Schritt“: Steinart, Fläche (m²), Ort, Bauzeit – und ist der Kunde einverstanden, dass sein Haus gezeigt wird?', ''],
     ['cm', 'Schichtdicken in cm (Schotter / Splitt / Pflaster), falls wir sie zeigen sollen', ''],
     ['foto', 'Hast du ein Foto von dir, deinem Team oder Auto bei der Arbeit? (bitte per WhatsApp schicken)', ''],
     ['domain', 'Eigene Domain + E-Mail gewünscht? (z. B. area-galabau.de, info@area-galabau.de)', ''],
@@ -235,7 +244,7 @@
     body.innerHTML = `<h3>Bitte prüfen</h3><p class="q">Gelb markiert = braucht dein OK. Antippen auf der Seite oder hier in der Liste.</p>
       ${ITEMS.map((it) => `<button class="rvw-it ${S.items[it.id] ? 'done' : ''}" data-id="${it.id}"><i></i><span>${esc(it.title)}${S.items[it.id] ? `<br><em>${esc(label(it))}</em>` : ''}</span>›</button>`).join('')}
       <h4>Fragen</h4>
-      ${QUESTIONS.map(([k, l, ph]) => `<label class="l" for="rvq-${k}">${esc(l)}</label>${k === 'sonst' || k === 'orte' ? `<textarea id="rvq-${k}" data-q="${k}" placeholder="${esc(ph)}">${esc(S.q[k] || '')}</textarea>` : `<input type="text" id="rvq-${k}" data-q="${k}" placeholder="${esc(ph)}" value="${esc(S.q[k] || '')}">`}`).join('')}
+      ${QUESTIONS.map(([k, l, ph]) => `<label class="l" for="rvq-${k}">${esc(l)}</label>${k === 'sonst' || k === 'orte' || k === 'einblick' ? `<textarea id="rvq-${k}" data-q="${k}" placeholder="${esc(ph)}">${esc(S.q[k] || '')}</textarea>` : `<input type="text" id="rvq-${k}" data-q="${k}" placeholder="${esc(ph)}" value="${esc(S.q[k] || '')}">`}`).join('')}
       <div class="rvw-row"><button class="rvw-btn" id="rvwSend">Antworten senden</button><button class="rvw-btn g" id="rvwCopy">Als Text kopieren</button></div>
       <div class="rvw-msg" id="rvwMsg">${S.sent ? `Zuletzt gesendet: ${new Date(S.sent).toLocaleString('de-DE')}. Du kannst jederzeit erneut senden.` : 'Du kannst auch zwischendurch aufhören – deine Eingaben bleiben auf diesem Gerät gespeichert.'}</div>`;
     body.scrollTop = 0;
