@@ -85,6 +85,7 @@ plus the open questions (Impressum data, towns, layer thicknesses …). "Antwort
 stores `feedback/<id>.json` in the Blob store; they appear on `/admin.html` ("Antworten aus dem Prüflink",
 with "Als Text kopieren"). Answers are also kept in his browser (localStorage) so he can continue later.
 Normal visitors never load review.js (index.html only injects it when `?pruefen` is in the URL).
+**After editing review.js, bump `?v=` in its loader in index.html** (js is cached for 1 h).
 What is asked = `ITEMS` / `QUESTIONS` at the top of review.js; a spot = `[css selector, exact text on the page]` –
 **if you change a text on the page, update its spot too**, or it won't be highlighted (console warns
 "[pruefen] Text nicht gefunden"). After he answers, put his choices into index.html for real and remove the items.

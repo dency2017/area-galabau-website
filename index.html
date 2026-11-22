@@ -984,7 +984,7 @@ form.addEventListener('submit',e=>{e.preventDefault();
   show(si+1);form.scrollIntoView({behavior:'smooth',block:'nearest'})});
 </script>
 <script src="js/layers.js" defer></script>
-<script>/* owner review mode: ?pruefen (also ?prüfen, ?prufen, ?pruefung, ?prufung, ?armin) → js/review.js */if(/[?&](pr(ue|ü|u)f(en|ung)|armin)(=|&|$)/.test(decodeURIComponent(location.search).toLowerCase())){const s=document.createElement('script');s.src='js/review.js';document.head.appendChild(s)}</script>
+<script>/* owner review mode: ?pruefen (also ?prüfen, ?prufen, ?pruefung, ?prufung, ?armin) → js/review.js */if(/[?&](pr(ue|ü|u)f(en|ung)|armin)(=|&|$)/.test(decodeURIComponent(location.search).toLowerCase())){const s=document.createElement('script');s.src='js/review.js?v=3';document.head.appendChild(s)}</script>
 <script src="js/reviews.js" defer></script>
 </body>
 </html>
