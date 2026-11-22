@@ -3,12 +3,14 @@
 //
 // Vercel environment variables (set them in the Vercel dashboard, never in code):
 //   GOOGLE_PLACES_API_KEY  required – a Google Cloud API key with "Places API (New)" enabled
-//   GOOGLE_PLACE_ID        optional – if missing, the business is looked up by name once per request
+//   GOOGLE_PLACE_ID        optional – overrides PLACE_ID below (e.g. if the Google listing ever changes)
 //
 // Google's rules: show the author's name (and link) with each review and a link to the place on
 // Google Maps. Responses are cached on Vercel's CDN for 1 hour.
 
 const QUERY = 'AREA Galabau Ravensburg';
+// Google listing "AREA GaLaBau" (verified 2026-11-22). Looked up by name only if this is ever emptied.
+const PLACE_ID = 'ChIJ_1NOuIyvm0cRctCeBCgjYkU';
 const FIELDS = 'id,displayName,rating,userRatingCount,googleMapsUri,reviews';
 
 function json(body, status = 200, cache = 'public, s-maxage=3600, stale-while-revalidate=86400') {
@@ -37,7 +39,7 @@ export async function GET() {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   if (!key) return json({ configured: false }, 200, 'public, s-maxage=300');
   try {
-    const placeId = process.env.GOOGLE_PLACE_ID || (await findPlaceId(key));
+    const placeId = process.env.GOOGLE_PLACE_ID || PLACE_ID || (await findPlaceId(key));
     if (!placeId) return json({ configured: true, found: false }, 200, 'public, s-maxage=300');
 
     const r = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}?languageCode=de`, {
