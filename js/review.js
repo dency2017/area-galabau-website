@@ -128,7 +128,7 @@
     ui();
     ITEMS.forEach(apply);
     mark();
-    if (!S.intro) intro();
+    intro(); // every time the link is opened (returning visits get the short version)
   }
 
   /* ---------- state → page ---------- */
@@ -195,7 +195,7 @@
 .rvw-btn.g{background:#EDE9DF;color:#1F211C;font-weight:500}
 .rvw-msg{font-size:14px;margin-top:10px;color:#55584F}
 #rvwIntro{position:fixed;inset:0;z-index:210;background:rgba(31,33,28,.55);display:grid;place-items:center;padding:20px}
-#rvwIntro div{background:#FAF8F3;border-radius:22px;padding:24px;max-width:440px;font:16px/1.5 "Inter Tight",system-ui,sans-serif;color:#1F211C}
+#rvwIntro>div{background:#FAF8F3;border-radius:22px;padding:24px;max-width:440px;font:16px/1.5 "Inter Tight",system-ui,sans-serif;color:#1F211C}
 #rvwIntro h2{font-weight:300;font-size:30px;letter-spacing:-.03em;margin-bottom:10px}
 #rvwIntro p{margin-bottom:10px}
 #rvwIntro mark{background:#fde9a8;padding:0 4px;border-radius:3px}
@@ -213,7 +213,7 @@
     box.innerHTML = `<div class="rvw-bar"><b>Prüfmodus<small id="rvwCount"></small></b><button id="rvwHelp" aria-label="Anleitung zeigen">?</button><button id="rvwList">Liste</button><button id="rvwMin" aria-label="Einklappen">–</button></div><div class="rvw-body" id="rvwBody"></div>`;
     document.body.appendChild(box);
     $('#rvwMin').onclick = () => { box.classList.toggle('min'); $('#rvwMin').textContent = box.classList.contains('min') ? '+' : '–'; };
-    $('#rvwHelp').onclick = intro;
+    $('#rvwHelp').onclick = () => { const k = S.intro; S.intro = false; intro(); S.intro = k; };
     $('#rvwList').onclick = () => { box.classList.remove('min'); $('#rvwMin').textContent = '–'; list(); };
     // tapping a yellow text opens its item (and doesn't follow links / toggle FAQ)
     document.addEventListener('click', (e) => {
@@ -370,19 +370,28 @@
 
   function intro() {
     if (document.getElementById('rvwIntro')) return;
+    const done = ITEMS.filter((it) => S.items[it.id]).length;
+    const back = S.intro && (done || Object.values(S.q).some(Boolean));
     const d = document.createElement('div');
     d.id = 'rvwIntro';
-    d.innerHTML = `<div role="dialog" aria-modal="true" aria-labelledby="rvwIh"><h2 id="rvwIh">Hallo Armin!</h2>
+    d.innerHTML = back
+      ? `<div role="dialog" aria-modal="true" aria-labelledby="rvwIh"><h2 id="rvwIh">Willkommen zurück!</h2>
+      <p>Du hast schon <b>${done} von ${ITEMS.length}</b> Punkten geprüft – deine Antworten sind noch da.</p>
+      <p>Weiter geht's in der Liste unten. Wenn du fertig bist: <b>„Antworten senden“</b>.${S.sent ? ` (Zuletzt gesendet: ${new Date(S.sent).toLocaleString('de-DE')}.)` : ''}</p>
+      <div class="rvw-row"><button class="rvw-btn" id="rvwGo">Weitermachen</button><button class="rvw-btn g" id="rvwHow">Anleitung</button></div></div>`
+      : `<div role="dialog" aria-modal="true" aria-labelledby="rvwIh"><h2 id="rvwIh">Hallo Armin!</h2>
       <p>Das ist die neue Website im <b>Prüfmodus</b>. Alles, was <mark>gelb markiert</mark> ist, braucht dein OK – vor allem Aussagen wie „Meisterbetrieb“ oder „Festpreis-Garantie“, die rechtlich stimmen müssen.</p>
       <p>Tipp auf eine gelbe Stelle und wähle: <b>stimmt so</b>, die <b>sichere Formulierung</b> oder <b>selbst ändern</b>. Die Seite zeigt sofort, wie es aussieht. Erledigte Stellen werden grün.</p>
       <p>In der Liste unten fehlen außerdem ein paar Angaben fürs Impressum. Am Ende: <b>„Antworten senden“</b>.</p>
       <div class="rvw-row"><button class="rvw-btn" id="rvwGo">Los geht's</button></div></div>`;
     document.body.appendChild(d);
-    $('#rvwGo').onclick = () => { d.remove(); S.intro = true; save(); };
-    d.addEventListener('click', (e) => { if (e.target === d) $('#rvwGo').click(); });
+    const close = () => { d.remove(); S.intro = true; save(); };
+    $('#rvwGo').onclick = close;
+    if ($('#rvwHow')) $('#rvwHow').onclick = () => { d.remove(); S.intro = false; intro(); S.intro = true; };
+    d.addEventListener('click', (e) => { if (e.target === d) close(); });
+    $('#rvwGo').focus();
   }
 
-  // start as soon as the page structure is there – don't wait for all photos / film frames
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', init);
   else init();
 })();
