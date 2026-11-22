@@ -103,7 +103,7 @@
 <style>
 :root{
   --paper:#F1EEE6; --paper-2:#FAF8F3; --ink:#1F211C; --ink-2:#55584F; --line:#D9D4C7;
-  --forest:#4f5057; --moss:#a6ca4f; --clay:#a6ca4f; --sun:#a6ca4f; --green:#a6ca4f; --green-d:#93b83c; --dark:#4f5057; --on-green:#4f5057;
+  --forest:#4f5057; --moss:#a6ca4f; --clay:#a6ca4f; --sun:#a6ca4f; --green:#a6ca4f; --green-d:#93b83c; --dark:#4f5057; --on-green:#45464c; --green-on-dark:#b5d566; /* on-green / green-on-dark: same look, but ≥4.5:1 contrast for small text (WCAG AA) */
   --r:22px; --ease:cubic-bezier(.2,.7,.1,1);
   --sans:"Inter Tight",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif;
 }
@@ -120,6 +120,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
 .hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
 .hdr.solid{box-shadow:0 8px 30px rgba(0,0,0,.18)}
 .hdr.hide{transform:translateY(-100%)}
+.hdr:focus-within{transform:none}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.01em;font-size:18px}
 .logo .brand{height:36px;width:auto;display:block}
 .nav{display:flex;gap:6px;align-items:center;font-size:15px}
@@ -141,10 +142,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
 .menu-open .burger span{background:transparent}
 .menu-open .burger span::before{top:0;transform:rotate(45deg)}
 .menu-open .burger span::after{top:0;transform:rotate(-45deg)}
-.mmenu{position:fixed;inset:0;z-index:45;background:var(--dark);color:#fff;padding:100px 24px 40px;display:flex;flex-direction:column;gap:6px;clip-path:circle(0 at calc(100% - 42px) 34px);transition:clip-path .6s var(--ease)}
-.menu-open .mmenu{clip-path:circle(150% at calc(100% - 42px) 34px)}
+.mmenu{position:fixed;inset:0;z-index:45;background:var(--dark);color:#fff;padding:100px 24px 40px;display:flex;flex-direction:column;gap:6px;clip-path:circle(0 at calc(100% - 42px) 34px);visibility:hidden;transition:clip-path .6s var(--ease),visibility 0s .6s}
+.menu-open .mmenu{clip-path:circle(150% at calc(100% - 42px) 34px);visibility:visible;transition:clip-path .6s var(--ease),visibility 0s}
 .mmenu a{font-size:34px;letter-spacing:-.02em;text-decoration:none;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.12)}
-.mmenu a span{font-size:13px;color:var(--green);margin-right:14px;vertical-align:middle}
+.mmenu a span{font-size:13px;color:var(--green-on-dark);margin-right:14px;vertical-align:middle}
 .mmenu .btn{margin-top:24px;align-self:flex-start;font-size:16px;border:0;padding:14px 22px}
 
 /* ---------- hero (sketch -> garden) ---------- */
@@ -258,14 +259,14 @@ h2{font-weight:300;font-size:clamp(38px,5.6vw,72px);line-height:1;letter-spacing
 
 /* process */
 .dark{background:var(--forest);color:#EEEBE1;border-radius:28px;margin:0 10px}
-.dark .num,.dark .lead{color:rgba(238,235,225,.65)}.dark .num b{color:#fff}
+.dark .num,.dark .lead{color:rgba(238,235,225,.82)}.dark .num b{color:#fff}
 .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;position:relative}
 .step{padding:28px 22px 6px 0;border-top:1px solid rgba(238,235,225,.2);position:relative}
 .step::before{counter-increment:s;content:"0" counter(s);font-size:13px;opacity:.55}
 .step::after{content:"";position:absolute;top:-1px;left:0;height:2px;width:0;background:var(--green);transition:width 1.2s var(--ease) calc(var(--i)*.18s)}
 .steps.in .step::after{width:100%}
-.step h4{font-weight:400;font-size:22px;letter-spacing:-.02em;margin:16px 0 8px;line-height:1.15}
-.step p{font-size:15px;color:rgba(238,235,225,.7)}
+.step h3{font-weight:400;font-size:22px;letter-spacing:-.02em;margin:16px 0 8px;line-height:1.15}
+.step p{font-size:15px;color:rgba(238,235,225,.82)}
 
 /* about */
 .about{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
@@ -357,8 +358,8 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
 @media (max-width:820px){.foot-top{grid-template-columns:1fr}.card-info{grid-template-columns:1fr;gap:18px}}
 .foot-big{font-weight:300;font-size:clamp(48px,10vw,140px);letter-spacing:-.05em;line-height:.95;color:#fff}
 
-.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:14px;color:#b9babf}
-.foot a{text-decoration:none}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:14px;color:#cbccd0}
+.foot a{text-decoration:none;display:inline-block;padding:4px 0}
 
 /* mobile bar */
 .mbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:none;gap:8px;padding:6px;border-radius:999px;background:rgba(79,80,87,.96);backdrop-filter:blur(10px);transform:translateY(140%);transition:transform .5s var(--ease)}
@@ -439,7 +440,7 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
   .step{border-top:0;padding:0 0 26px 6px}
   .step::after{display:none}
   .step::before{position:absolute;left:-36px;top:0;width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--on-green);opacity:1;display:grid;place-items:center;font-size:11px;font-weight:600}
-  .step h4{margin:0 0 6px;font-size:20px;padding-top:2px}
+  .step h3{margin:0 0 6px;font-size:20px;padding-top:2px}
   .stats{gap:10px}.stat{padding:18px}.stat b{font-size:40px}
   .about{gap:32px}
   summary{font-size:17px;padding:18px 0}
@@ -582,11 +583,11 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
           <p class="lead">Klar, planbar und ohne Überraschungen bei den Kosten.</p>
         </div>
         <div class="steps reveal" id="steps">
-          <div class="step" style="--i:0"><h4>Anfrage</h4><p>Kurz Ihr Vorhaben schildern – wir melden uns innerhalb von 24 Stunden.</p></div>
-          <div class="step" style="--i:1"><h4>Besichtigung vor Ort</h4><p>Kostenlos und unverbindlich. Wir messen auf und beraten zu Material und Gestaltung.</p></div>
-          <div class="step" style="--i:2"><h4>Festpreis-Angebot</h4><p>Ein verbindliches Angebot – der Preis, den wir nennen, ist der Preis, den Sie zahlen.</p></div>
-          <div class="step" style="--i:3"><h4>Umsetzung</h4><p>Ausführung durch unseren Meisterbetrieb, sauber und termingerecht.</p></div>
-          <div class="step" style="--i:4"><h4>Übergabe</h4><p>Gemeinsame Abnahme und Pflegetipps für Ihren neuen Außenbereich.</p></div>
+          <div class="step" style="--i:0"><h3>Anfrage</h3><p>Kurz Ihr Vorhaben schildern – wir melden uns innerhalb von 24 Stunden.</p></div>
+          <div class="step" style="--i:1"><h3>Besichtigung vor Ort</h3><p>Kostenlos und unverbindlich. Wir messen auf und beraten zu Material und Gestaltung.</p></div>
+          <div class="step" style="--i:2"><h3>Festpreis-Angebot</h3><p>Ein verbindliches Angebot – der Preis, den wir nennen, ist der Preis, den Sie zahlen.</p></div>
+          <div class="step" style="--i:3"><h3>Umsetzung</h3><p>Ausführung durch unseren Meisterbetrieb, sauber und termingerecht.</p></div>
+          <div class="step" style="--i:4"><h3>Übergabe</h3><p>Gemeinsame Abnahme und Pflegetipps für Ihren neuen Außenbereich.</p></div>
         </div>
       </div>
     </section>
@@ -667,7 +668,7 @@ footer{padding:80px 0 120px;background:var(--dark);color:#e4e4e6}
           <div class="fstep" data-s="1">
             <h3>Erzählen Sie uns mehr.</h3>
             <p>Grobe Angaben reichen völlig.</p>
-            <label class="fl">Ungefähre Fläche <span class="range-out" id="areaOut">40 m²</span></label>
+            <label class="fl" for="area">Ungefähre Fläche <span class="range-out" id="areaOut">40 m²</span></label>
             <input class="rg" type="range" id="area" min="5" max="400" step="5" value="40">
             <div class="row2">
               <div><label class="fl" for="ort">Ort</label>
@@ -770,12 +771,14 @@ const hero=$('#hero');
       sketch and its depth map – the sketch turns into colour while the camera glides into the garden.
       Scroll picks the frame; neighbouring frames are blended so it stays smooth. Phones get a portrait set. */
 const FILM_N=64, phoneSet=matchMedia('(max-aspect-ratio: 1/1)').matches, filmDir=phoneSet?'m':'d';
+// phones load every 2nd frame (~2 MB instead of ~4 MB); neighbouring frames are blended, so it stays smooth. ?fullfilm = all frames
+const FILM_STEP=phoneSet&&!/fullfilm/.test(location.search)?2:1;
 const DRAW_END=.25, FILM_END=.85;
 const cvs=$('#heroFilm'), ctx=cvs.getContext('2d'), frames=new Array(FILM_N);
 $('#heroFirst').src=`img/film/${filmDir}/000.webp`;
 let filmPos=0, drawP=0, introP=reduce?1:0, lines=null;
-function loadFrame(i){if(frames[i])return;const im=new Image();im.decoding='async';im.src=`img/film/${filmDir}/${String(i).padStart(3,'0')}.webp`;frames[i]=im;im.onload=()=>{im.ok=1;if(Math.abs(i-filmPos)<2)drawFilm()}}
-[0,FILM_N-1].forEach(loadFrame);for(const st of [16,8,4,2,1])for(let i=0;i<FILM_N;i+=st)loadFrame(i);
+function loadFrame(i){if(frames[i])return;const im=new Image();im.decoding='async';im.src=`img/film/${filmDir}/${String(i).padStart(3,'0')}.webp`;frames[i]=im;im.onload=()=>{im.ok=1;if(Math.abs(i-filmPos)<=FILM_STEP+1)drawFilm()}}
+[0,FILM_N-1].forEach(loadFrame);for(const st of [16,8,4,2,1].filter(v=>v>=FILM_STEP))for(let i=0;i<FILM_N;i+=st)loadFrame(i);
 function near(i){for(let d=0;d<FILM_N;d++){if(frames[i-d]?.ok)return frames[i-d];if(frames[i+d]?.ok)return frames[i+d]}return null}
 // where the frame sits on the canvas (object-fit: cover)
 function fit(im){const cw=cvs.width,ch=cvs.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight),w=im.naturalWidth*s,h=im.naturalHeight*s;return{x:(cw-w)/2,y:(ch-h)/2,w,h}}
@@ -797,7 +800,7 @@ function drawLines(r,progress,alpha){if(!lines||alpha<=0.01)return;
   ctx.stroke();ctx.globalAlpha=1}
 function sizeFilm(){const r=Math.min(devicePixelRatio||1,2);cvs.width=Math.round(cvs.clientWidth*r);cvs.height=Math.round(cvs.clientHeight*r);drawFilm()}
 const sm=t=>t*t*(3-2*t);
-function drawFilm(){const i=Math.floor(filmPos),f=filmPos-i,a=near(i),b=f>0.01?frames[i+1]:null;if(!a)return;
+function drawFilm(){const S=FILM_STEP,i=Math.min(Math.floor(filmPos/S)*S,FILM_N-1),j=Math.min(i+S,FILM_N-1),f=j>i?(filmPos-i)/(j-i):0,a=near(i),b=f>0.01?frames[j]:null;if(!a)return;
   const draw=Math.max(drawP,introP);
   ctx.globalAlpha=1;ctx.fillStyle='#F1EEE6';ctx.fillRect(0,0,cvs.width,cvs.height);
   // phase 1: the sketch underneath fades in as the strokes are drawn
@@ -840,6 +843,7 @@ addEventListener('resize',heroUpdate);
 sizeFilm();heroUpdate();chrome();
 $('#burger').addEventListener('click',()=>{const o=document.body.classList.toggle('menu-open');$('#burger').setAttribute('aria-expanded',o)});
 $$('.mmenu a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('menu-open')){document.body.classList.remove('menu-open');$('#burger').setAttribute('aria-expanded',false);$('#burger').focus()}});
 
 /* ---------- before / after ---------- */
 const ba=$('#ba');

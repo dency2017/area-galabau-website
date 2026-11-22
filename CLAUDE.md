@@ -42,8 +42,9 @@ docs/                    PR screenshots (not deployed)
   Background paper `#F1EEE6` / `#FAF8F3`, ink `#1F211C`.
 - **Highlighted words** (`<em>` in h1/h2/footer headline) get a **solid green background box** – never an underline.
   The owner explicitly asked: no underlines anywhere.
-- **Text on green is always `#4f5057`** (contrast 4.27:1). White on green is 1.88:1 – never use it.
-  Text on `#4f5057` is white.
+- **Text on green is `--on-green` = `#45464c`** (5.0:1 – a hair darker than the brand grey so small text passes WCAG AA).
+  White on green is 1.88:1 – never use it. Text on `#4f5057` is white; small green text on grey uses `--green-on-dark` `#b5d566`.
+  Light text on the dark sections: ≥ .82 opacity; footer text `#cbccd0`.
 - **Logo:** inline SVG (traced from the owner's PDF), white on the grey navbar and footer. Don't redraw it.
 - **Favicon:** only the A square of the logo.
 - **Fonts:** Inter Tight (UI/headings, light weight) + Instrument Serif italic for highlighted words.
@@ -72,6 +73,8 @@ docs/                    PR screenshots (not deployed)
 - **Inquiry form:** 3 steps, then builds a summary and offers **E-Mail** (mailto), **WhatsApp** and **Anrufen**. No backend.
 - **Opening-hours badge:** live "Jetzt geöffnet / Geschlossen" using Europe/Berlin time (`HRS` array).
 - **Mobile bar:** sticky Anrufen / Anfrage buttons on phones.
+- Accessibility: the closed phone menu is `visibility:hidden` (not tabbable), Esc closes it; the header shows when
+  anything in it has focus; process steps are `h3`. Checked with a Playwright script (labels, names, contrast, tab order).
 - Watch out for class-name collisions in the single CSS file (e.g. `.in` is the reveal state; inputs use `.inp`).
 
 ## Hero film
@@ -86,7 +89,7 @@ Before the film there's a **pencil-drawing phase** (owner asked for it): the out
 `img/hero-lines.json` draw themselves over the faint sketch – on their own for ~2.6 s after load, then
 scroll continues it (`DRAW_END` = .25 of the hero track); the film runs until `FILM_END` (.85), and the
 strokes fade out as the colour arrives. The track is 420svh (320svh on phones, ≤820px). Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
-coarse-to-fine (~4 MB on phones, ~7.5 MB desktop – the heaviest part of the page). The first frame is a `<picture>` so phones
+coarse-to-fine. Phones load every 2nd frame (`FILM_STEP`, ~2 MB; `?fullfilm` loads all for comparison), desktop all 64 (~7.5 MB). The first frame is a `<picture>` so phones
 only fetch `m/000.webp`. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
 hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
 
@@ -166,4 +169,3 @@ when a page loads. Keep it true:
 - Cross-section: Armin to confirm the layer descriptions (and real thicknesses, if they should be shown).
 - When the owner has a custom domain: add it in Vercel and replace `https://area-galabau-website.vercel.app` in index.html (canonical, OG, JSON-LD), robots.txt and sitemap.xml.
 - Optional: connect the form to a form service if the owner wants inquiries without mailto/WhatsApp.
-- Button text (`#4f5057` on green, 4.27:1) is slightly under WCAG AA for small text – owner was told; darker text is an option if he wants it.

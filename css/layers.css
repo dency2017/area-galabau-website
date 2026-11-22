@@ -8,7 +8,7 @@
 .ub-cam{position:absolute;inset:0;transform-origin:50% 62%;will-change:transform}
 .ub-cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;will-change:opacity,transform}
 .ub-cam img:not(:first-child){opacity:0}
-.ub-badge{position:absolute;left:14px;bottom:12px;font-size:11.5px;letter-spacing:.04em;color:#6b6458;background:rgba(250,248,243,.8);padding:4px 10px;border-radius:999px}
+.ub-badge{position:absolute;left:14px;bottom:12px;font-size:11.5px;letter-spacing:.04em;color:#5e584d;background:rgba(250,248,243,.85);padding:4px 10px;border-radius:999px}
 .ub-list{list-style:none;display:grid}
 .ub-list li{position:relative;padding:15px 0 15px 44px;border-top:1px solid var(--line);transition:opacity .5s;opacity:.32}
 .ub-list li.on{opacity:1}
