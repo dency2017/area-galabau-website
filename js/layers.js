@@ -70,7 +70,10 @@
       if (reduce) { pick = i; imgs.forEach((im) => { if (!im.src) im.src = im.dataset.src; }); req(); return; }
       const top = trk.getBoundingClientRect().top + scrollY;
       const len = trk.offsetHeight - innerHeight;
-      scrollTo({ top: Math.round(top + len * (START + (i + 0.5) * SPAN)), behavior: 'smooth' });
+      const y = Math.round(top + len * (START + (i + 0.5) * SPAN)), y0 = scrollY;
+      scrollTo({ top: y, behavior: 'smooth' });
+      // some browsers/webviews ignore smooth scrolling – then jump directly
+      setTimeout(() => { if (Math.abs(scrollY - y0) < 2 && Math.abs(y - y0) > 2) scrollTo(0, y); }, 700);
     };
     li.addEventListener('click', go);
     li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
