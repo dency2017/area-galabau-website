@@ -120,7 +120,10 @@ film** (Apple-product-page technique). 64 pre-rendered frames in `img/film/d/` (
 the real photo, its sketch and its depth map** – the sketch turns into colour while the camera glides
 into the garden. Nothing is invented (an AI video test with Veo 3.1 replaced the garden with a
 different one mid-clip – rejected; don't use generative video for real project photos).
-Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
+Before the film there's a **pencil-drawing phase** (owner asked for it): the outlines from
+`img/hero-lines.json` draw themselves over the faint sketch – on their own for ~2.6 s after load, then
+scroll continues it (`DRAW_END` = .25 of the hero track); the film runs until `FILM_END` (.85), and the
+strokes fade out as the colour arrives. The track is 420svh. Scroll picks the frame; the page blends two neighbouring frames, so it stays smooth. Frames load
 coarse-to-fine. Re-render after changing the hero photo: `python tools/film.py` (needs hero.jpg,
 hero-s.jpg, hero-depth.png). Camera move: `dz, dx, dy` in the script.
 
